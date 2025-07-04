@@ -1,0 +1,59 @@
+  {
+    "restaurantName": "Sushiro",
+    "restaurantDescription": "Sushiro is a popular sushi restaurant chain in Thailand.",
+    "restaurantLogo": "/images/logo_restaurants/sushiro.png",
+    "restaurantId": "sushiro",
+    "currency": "THB",
+    "currencySymbol": "฿",
+    "currencyPosition": "after",
+    "currencyDecimalDigits": 2,
+    "currencyDecimalSeparator": ".",
+    "currencyThousandsSeparator": ",",
+    "currencyNegativeFormat": "-%s",
+    "currencyPositiveFormat": "%s",
+    "currencySpaceBetweenAmountAndSymbol": false,
+    "serviceCharge": 0.1,
+    "vat": 0.07,
+    "vatIncluded": true,
+    "serviceChargeIncluded": true,
+    "vatLabel": "VAT",
+    "serviceChargeLabel": "Service Charge",
+    "plates": {
+        "red": {
+            "label_th" : "แดง",
+            "label_en" : "Red",
+            "image": "/images/plates/sushiro/red.png",
+            "price" : 40
+        },
+        "silver": {
+            "label_th" : "เงิน",
+            "label_en" : "Silver",
+            "image": "/images/plates/sushiro/silver.png",
+            "price" : 60
+        },
+        "gold": {
+            "label_th" : "ทอง",
+            "label_en" : "Gold",
+            "image": "/images/plates/sushiro/gold.png",
+            "price" : 80
+        },
+        "black": {
+            "label_th" : "ดำ",
+            "label_en" : "Black",
+            "image": "/images/plates/sushiro/black.png",
+            "price" : 120
+        },
+        "special100": {
+            "label_th" : "จานพิเศษ 100",
+            "label_en" : "Special 100",
+            "image": "/images/plates/sushiro/special100.png",
+            "price" : 100
+        },
+        "special150": {
+            "label_th" : "จานพิเศษ 150",
+            "label_en" : "Special 150",
+            "image": "/images/plates/sushiro/special150.png",
+            "price" : 150
+        }
+    }
+}

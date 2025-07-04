@@ -1,0 +1,95 @@
+  {
+    "restaurantName": "Katsu Midori",
+    "restaurantDescription": "Katsu Midori is a popular sushi restaurant chain in Thailand.",
+    "restaurantLogo": "/images/logo_restaurants/katsu_midori.png",
+    "restaurantId": "katsu_midori",
+    "currency": "THB",
+    "currencySymbol": "฿",
+    "currencyPosition": "after",
+    "currencyDecimalDigits": 2,
+    "currencyDecimalSeparator": ".",
+    "currencyThousandsSeparator": ",",
+    "currencyNegativeFormat": "-%s",
+    "currencyPositiveFormat": "%s",
+    "currencySpaceBetweenAmountAndSymbol": false,
+    "serviceCharge": 0.1,
+    "vat": 0.07,
+    "vatIncluded": true,
+    "serviceChargeIncluded": true,
+    "vatLabel": "VAT",
+    "serviceChargeLabel": "Service Charge",
+    "plates": {
+        "red": {
+            "label_th" : "แดง",
+            "label_en" : "Red",
+            "image": "/images/plates/katsu_midori/red.png",
+            "price" : 40
+        },
+        "blue": {
+            "label_th" : "น้ำเงิน",
+            "label_en" : "Blue",
+            "image": "/images/plates/katsu_midori/blue.png",
+            "price" : 50
+        },
+        "green": {
+            "label_th" : "เขียว",
+            "label_en" : "Green",
+            "image": "/images/plates/katsu_midori/green.png",
+            "price" : 60
+        },
+        "yellow": {
+            "label_th" : "เหลือง",
+            "label_en" : "Yellow",
+            "image": "/images/plates/katsu_midori/yellow.png",
+            "price" : 70
+        },
+        "brown": {
+            "label_th" : "น้ำตาล",
+            "label_en" : "Brown",
+            "image": "/images/plates/katsu_midori/brown.png",
+            "price" : 80
+        },
+        "pink": {
+            "label_th" : "ชมพู",
+            "label_en" : "Pink",
+            "image": "/images/plates/katsu_midori/pink.png",
+            "price" : 90
+        },
+        "gold": {
+            "label_th" : "ทอง",
+            "label_en" : "Gold",
+            "image": "/images/plates/katsu_midori/gold.png",
+            "price" : 100
+        },
+        "white": {
+            "label_th" : "ขาว",
+            "label_en" : "White",
+            "image": "/images/plates/katsu_midori/white.png",
+            "price" : 120
+        },
+        "red_pattern": {
+            "label_th" : "ลายแดง",
+            "label_en" : "Red Pattern",
+            "image": "/images/plates/katsu_midori/red_pattern.png",
+            "price" : 140
+        },
+        "sand": {
+            "label_th" : "ทราย",
+            "label_en" : "Sand",
+            "image": "/images/plates/katsu_midori/sand.png",
+            "price" : 150
+        },
+        "white_blue": {
+            "label_th" : "ขาว ตารางน้ำเงิน",
+            "label_en" : "White Blue",
+            "image": "/images/plates/katsu_midori/white_blue.png",
+            "price" : 160
+        },
+        "black": {
+            "label_th" : "ดำ",
+            "label_en" : "Black",
+            "image": "/images/plates/katsu_midori/black.png",
+            "price" : 180
+        }
+    }
+}
