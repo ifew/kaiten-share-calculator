@@ -379,10 +379,10 @@ function generateSummaryTable() {
         
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td class="border border-gray-300 p-2 font-medium">${participant.name}</td>
-            <td class="border border-gray-300 p-2 text-center">${getTotalPlatesForParticipant(participant.id)}</td>
-            <td class="border border-gray-300 p-2 text-right">${formatCurrency(participantSubtotal)}</td>
-            <td class="border border-gray-300 p-2 text-right font-semibold">${formatCurrency(participantTotal)}</td>
+            <td class="border border-gray-300 p-2 font-medium text-sm">${participant.name}</td>
+            <td class="border border-gray-300 p-2 text-center text-sm">${getTotalPlatesForParticipant(participant.id)}</td>
+            <td class="border border-gray-300 p-2 text-right text-sm">${formatCurrency(participantSubtotal)}</td>
+            <td class="border border-gray-300 p-2 text-right font-semibold text-sm">${formatCurrency(participantTotal)}</td>
         `;
         
         tableBody.appendChild(row);
@@ -399,10 +399,10 @@ function generateSummaryTable() {
         const row = document.createElement('tr');
         row.className = 'bg-gray-50';
         row.innerHTML = `
-            <td class="border border-gray-300 p-2 font-medium">${label}</td>
-            <td class="border border-gray-300 p-2 text-center">${plates}</td>
-            <td class="border border-gray-300 p-2 text-right">${amount}</td>
-            <td class="border border-gray-300 p-2 text-right">${total}</td>
+            <td class="border border-gray-300 p-2 font-medium text-sm">${label}</td>
+            <td class="border border-gray-300 p-2 text-center text-sm">${plates}</td>
+            <td class="border border-gray-300 p-2 text-right text-sm">${amount}</td>
+            <td class="border border-gray-300 p-2 text-right text-sm">${total}</td>
         `;
         tableBody.appendChild(row);
     });
