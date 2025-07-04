@@ -101,14 +101,11 @@ function updateParticipantsList() {
         const amount = getTotalAmountForParticipant(participant.id);
         
         participantDiv.innerHTML = `
-            <div class="flex items-center mb-2">
+            <div class="mb-2">
                 <input type="text" value="${participant.name}" 
-                       class="thumb-friendly-input bg-white border border-gray-300 rounded font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-0 flex-1 mr-2"
+                       class="thumb-friendly-input bg-white border border-gray-300 rounded font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
                        onchange="updateParticipantName(${participant.id}, this.value)"
                        onclick="event.stopPropagation()">
-                <button onclick="selectParticipantAndScroll(${index}); event.stopPropagation()" class="thumb-friendly-input bg-green-500 text-white hover:bg-green-600 transition-colors font-medium rounded flex-shrink-0 px-4">
-                    Edit
-                </button>
             </div>
             <div class="flex items-center justify-between">
                 <div class="text-sm text-gray-600">
@@ -164,7 +161,7 @@ function displayPlates() {
     
     Object.entries(currentRestaurant.plates).forEach(([plateColor, plateData]) => {
         const plateDiv = document.createElement('div');
-        plateDiv.className = 'bg-white rounded-lg shadow-md p-4 text-center';
+        plateDiv.className = 'bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-shadow relative';
         
         const currentParticipant = participants[currentParticipantIndex];
         const count = plateSelections[currentParticipant.id]?.[plateColor] || 0;
@@ -181,20 +178,50 @@ function displayPlates() {
             <h3 class="font-medium text-gray-800 mb-1">${plateData.label_en}</h3>
             <p class="text-lg font-bold text-green-600 mb-3">${formatCurrency(plateData.price)}</p>
             <div class="flex items-center justify-center gap-3">
-                <button onclick="updatePlateCount('${plateColor}', -1)" 
-                        class="plate-button bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors ${count <= 0 ? 'opacity-50 cursor-not-allowed' : ''}">
-                    −
-                </button>
+                ${count > 0 ? `
+                    <button onclick="updatePlateCount('${plateColor}', -1); event.stopPropagation()" 
+                            class="plate-button bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors">
+                        −
+                    </button>
+                ` : ''}
                 <span class="text-xl font-bold text-gray-800 min-w-12 text-center">${count}</span>
-                <button onclick="updatePlateCount('${plateColor}', 1)" 
-                        class="plate-button bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
-                    +
-                </button>
             </div>
         `;
         
+        // Make plate clickable to add
+        plateDiv.addEventListener('click', () => updatePlateCount(plateColor, 1));
+        
         platesGrid.appendChild(plateDiv);
     });
+}
+
+// Show tooltip animation
+function showPlateTooltip(plateColor, delta) {
+    const plateElements = document.querySelectorAll('.bg-white.rounded-lg.shadow-md.p-4.text-center');
+    
+    // Find the correct plate element by checking its content
+    let targetPlate = null;
+    plateElements.forEach(plate => {
+        const plateLabel = plate.querySelector('h3');
+        if (plateLabel && plateLabel.textContent === currentRestaurant.plates[plateColor].label_en) {
+            targetPlate = plate;
+        }
+    });
+    
+    if (targetPlate) {
+        const tooltip = document.createElement('div');
+        tooltip.className = `plate-tooltip ${delta > 0 ? 'positive' : 'negative'}`;
+        tooltip.textContent = delta > 0 ? '+1' : '-1';
+        
+        targetPlate.appendChild(tooltip);
+        
+        // Remove tooltip after animation
+        setTimeout(() => {
+            if (tooltip.parentNode) {
+                tooltip.parentNode.removeChild(tooltip);
+            }
+        }, 1500);
+    }
 }
 
 // Update plate count for current participant
@@ -206,6 +233,11 @@ function updatePlateCount(plateColor, delta) {
     
     const currentCount = plateSelections[currentParticipant.id][plateColor] || 0;
     const newCount = Math.max(0, currentCount + delta);
+    
+    // Only show tooltip if count actually changes
+    if (newCount !== currentCount) {
+        showPlateTooltip(plateColor, delta);
+    }
     
     if (newCount === 0) {
         delete plateSelections[currentParticipant.id][plateColor];
