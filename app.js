@@ -131,6 +131,7 @@ function updateParticipantSelector() {
     selector.value = participants[currentParticipantIndex].id;
     selector.onchange = (e) => {
         currentParticipantIndex = participants.findIndex(p => p.id == e.target.value);
+        displayPlates(); // Refresh plates display to show correct counts for selected participant
     };
 }
 
