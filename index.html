@@ -8,12 +8,34 @@
     <style>
         .plate-button {
             transition: all 0.3s ease;
+            min-width: 48px;
+            min-height: 48px;
         }
         .plate-button:hover {
             transform: scale(1.05);
         }
         .plate-button:active {
             transform: scale(0.95);
+        }
+        .thumb-friendly-input {
+            min-height: 48px;
+            padding: 12px 16px;
+            font-size: 16px;
+        }
+        .thumb-friendly-button {
+            min-height: 48px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+        .restaurant-card {
+            min-height: 120px;
+            padding: 24px;
+        }
+        .participant-remove-btn {
+            min-width: 36px;
+            min-height: 36px;
+            padding: 8px;
         }
     </style>
 </head>
@@ -64,7 +86,7 @@
         <div class="bg-white rounded-lg shadow-md p-4 mb-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold text-gray-800">Participants</h3>
-                <button id="add-participant" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                <button id="add-participant" class="thumb-friendly-button bg-blue-500 text-white hover:bg-blue-600 transition-colors">
                     + Add Person
                 </button>
             </div>
@@ -78,7 +100,7 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Plates</h3>
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Choose participant:</label>
-                <select id="participant-selector" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <select id="participant-selector" class="thumb-friendly-input w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     <!-- Options will be populated here -->
                 </select>
             </div>
@@ -89,7 +111,7 @@
 
         <!-- Summary Button -->
         <div class="text-center">
-            <button id="show-summary" class="bg-green-500 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-600">
+            <button id="show-summary" class="thumb-friendly-button bg-green-500 text-white text-lg font-semibold hover:bg-green-600 transition-colors px-8">
                 Show Summary
             </button>
         </div>
@@ -132,10 +154,10 @@
 
             <!-- Action Buttons -->
             <div class="flex gap-4 mt-6">
-                <button id="reset-all" class="flex-1 bg-red-500 text-white py-3 rounded-lg hover:bg-red-600">
+                <button id="reset-all" class="thumb-friendly-button flex-1 bg-red-500 text-white hover:bg-red-600 transition-colors">
                     Reset All
                 </button>
-                <button id="save-session" class="flex-1 bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600">
+                <button id="save-session" class="thumb-friendly-button flex-1 bg-blue-500 text-white hover:bg-blue-600 transition-colors">
                     Save Session
                 </button>
             </div>

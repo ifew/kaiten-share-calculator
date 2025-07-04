@@ -50,13 +50,13 @@ function displayRestaurants(restaurants) {
     
     restaurants.forEach(restaurant => {
         const card = document.createElement('div');
-        card.className = 'bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow';
+        card.className = 'restaurant-card bg-white rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow';
         card.onclick = () => selectRestaurant(restaurant);
         
         card.innerHTML = `
             <div class="text-center">
                 <img src="${restaurant.restaurantLogo}" alt="${restaurant.restaurantName}" 
-                     class="w-24 h-24 mx-auto mb-4 rounded-full object-cover">
+                     class="w-24 h-24 mx-auto mb-4 object-cover">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">${restaurant.restaurantName}</h3>
                 <p class="text-gray-600 text-sm">${restaurant.restaurantDescription}</p>
             </div>
@@ -101,12 +101,12 @@ function updateParticipantsList() {
         participantDiv.innerHTML = `
             <div class="flex items-center flex-1">
                 <input type="text" value="${participant.name}" 
-                       class="bg-transparent border-none font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1"
+                       class="thumb-friendly-input bg-transparent border-none font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                        onchange="updateParticipantName(${participant.id}, this.value)">
                 <span class="ml-4 text-sm text-gray-600">${plateCount} plates • ${formatCurrency(amount)}</span>
             </div>
             ${participants.length > 1 ? `
-                <button onclick="removeParticipant(${participant.id})" class="text-red-500 hover:text-red-700 ml-2">
+                <button onclick="removeParticipant(${participant.id})" class="participant-remove-btn text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors">
                     ✕
                 </button>
             ` : ''}
@@ -155,12 +155,12 @@ function displayPlates() {
             <p class="text-lg font-bold text-green-600 mb-3">${formatCurrency(plateData.price)}</p>
             <div class="flex items-center justify-center gap-3">
                 <button onclick="updatePlateCount('${plateColor}', -1)" 
-                        class="plate-button bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600 ${count <= 0 ? 'opacity-50 cursor-not-allowed' : ''}">
+                        class="plate-button bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors ${count <= 0 ? 'opacity-50 cursor-not-allowed' : ''}">
                     −
                 </button>
-                <span class="text-xl font-bold text-gray-800 min-w-8">${count}</span>
+                <span class="text-xl font-bold text-gray-800 min-w-12 text-center">${count}</span>
                 <button onclick="updatePlateCount('${plateColor}', 1)" 
-                        class="plate-button bg-green-500 text-white w-8 h-8 rounded-full hover:bg-green-600">
+                        class="plate-button bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
                     +
                 </button>
             </div>
