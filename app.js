@@ -354,6 +354,9 @@ function showSummary() {
     
     generateSummaryTable();
     switchToState(AppState.SUMMARY);
+    
+    // Scroll to top when showing summary
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Generate summary table
