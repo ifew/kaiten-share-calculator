@@ -54,12 +54,12 @@ function displayRestaurants(restaurants) {
         card.onclick = () => selectRestaurant(restaurant);
         
         card.innerHTML = `
-            <div class="text-center">
-                <img src="${restaurant.restaurantLogo}" alt="${restaurant.restaurantName}" 
-                     class="w-24 h-24 mx-auto mb-4 object-cover">
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">${restaurant.restaurantName}</h3>
+            <article class="text-center">
+                <img src="${restaurant.restaurantLogo}" alt="${restaurant.restaurantName} logo" 
+                     class="w-24 h-24 mx-auto mb-4 object-cover" loading="lazy">
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">${restaurant.restaurantName}</h2>
                 <p class="text-gray-600 text-sm">${restaurant.restaurantDescription}</p>
-            </div>
+            </article>
         `;
         
         restaurantList.appendChild(card);
@@ -148,9 +148,9 @@ function displayPlates() {
         const count = plateSelections[currentParticipant.id]?.[plateColor] || 0;
         
         plateDiv.innerHTML = `
-            <img src="${plateData.image}" alt="${plateData.label_en}" 
-                 class="w-16 h-16 mx-auto mb-2 rounded-full object-cover">
-            <h4 class="font-medium text-gray-800 mb-1">${plateData.label_en}</h4>
+            <img src="${plateData.image}" alt="${plateData.label_en} plate - ${formatCurrency(plateData.price)}" 
+                 class="w-16 h-16 mx-auto mb-2 rounded-full object-cover" loading="lazy">
+            <h3 class="font-medium text-gray-800 mb-1">${plateData.label_en}</h3>
             <p class="text-sm text-gray-600 mb-2">${plateData.label_th}</p>
             <p class="text-lg font-bold text-green-600 mb-3">${formatCurrency(plateData.price)}</p>
             <div class="flex items-center justify-center gap-3">
@@ -272,6 +272,15 @@ function formatCurrency(amount) {
 
 // Show summary page
 function showSummary() {
+    // Check if any plates have been selected
+    const totalPlates = participants.reduce((sum, participant) => 
+        sum + getTotalPlatesForParticipant(participant.id), 0);
+    
+    if (totalPlates === 0) {
+        alert('Please select at least one plate before viewing the summary.');
+        return;
+    }
+    
     generateSummaryTable();
     switchToState(AppState.SUMMARY);
 }

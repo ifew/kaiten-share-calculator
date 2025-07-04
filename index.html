@@ -3,7 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaiten Share Calculator</title>
+    <title>Kaiten Share Calculator - Split Your Sushi Bill Easily | Sushiro & Katsu Midori</title>
+    <meta name="description" content="Free online bill calculator for conveyor belt sushi restaurants. Split bills fairly among friends at Sushiro, Katsu Midori and other kaiten sushi chains in Thailand.">
+    <meta name="keywords" content="sushi bill calculator, kaiten sushi, conveyor belt sushi, bill splitter, Sushiro, Katsu Midori, Thailand, sushi restaurant, group dining">
+    <meta name="author" content="Kaiten Share Calculator">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaiten-share-calculator.com/">
+    <meta property="og:title" content="Kaiten Share Calculator - Split Your Sushi Bill Easily">
+    <meta property="og:description" content="Free online bill calculator for conveyor belt sushi restaurants. Split bills fairly among friends at Sushiro, Katsu Midori and other kaiten sushi chains.">
+    <meta property="og:image" content="https://kaiten-share-calculator.com/images/og-image.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Kaiten Share Calculator">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaiten-share-calculator.com/">
+    <meta property="twitter:title" content="Kaiten Share Calculator - Split Your Sushi Bill Easily">
+    <meta property="twitter:description" content="Free online bill calculator for conveyor belt sushi restaurants. Split bills fairly among friends at Sushiro, Katsu Midori and other kaiten sushi chains.">
+    <meta property="twitter:image" content="https://kaiten-share-calculator.com/images/twitter-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kaiten-share-calculator.com/">
+    
+    <!-- Language alternatives -->
+    <link rel="alternate" hreflang="en" href="https://kaiten-share-calculator.com/">
+    <link rel="alternate" hreflang="th" href="https://kaiten-share-calculator.com/th/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Kaiten Share Calculator",
+        "description": "Free online bill calculator for conveyor belt sushi restaurants. Split bills fairly among friends at Sushiro, Katsu Midori and other kaiten sushi chains in Thailand.",
+        "url": "https://kaiten-share-calculator.com/",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "THB"
+        },
+        "featureList": [
+            "Bill splitting for multiple restaurants",
+            "Real-time calculation",
+            "Mobile-friendly interface",
+            "Offline capability",
+            "Service charge and VAT calculation"
+        ],
+        "about": {
+            "@type": "Thing",
+            "name": "Conveyor Belt Sushi Restaurants",
+            "description": "Kaiten sushi restaurants in Thailand including Sushiro and Katsu Midori"
+        }
+    }
+    </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .plate-button {
@@ -50,14 +115,15 @@
 
     <!-- Restaurant Selection Page -->
     <div id="restaurant-selection" class="hidden container mx-auto px-4 py-8">
-        <div class="text-center mb-8">
+        <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800 mb-2">🍣 Kaiten Share Calculator</h1>
-            <p class="text-gray-600">Select a restaurant to start calculating</p>
-        </div>
+            <p class="text-gray-600 mb-4">Select a restaurant to start calculating</p>
+            <p class="text-sm text-gray-500">Fair bill splitting for conveyor belt sushi restaurants in Thailand</p>
+        </header>
         
-        <div id="restaurant-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <section id="restaurant-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto" aria-label="Restaurant selection">
             <!-- Restaurant cards will be populated here -->
-        </div>
+        </section>
     </div>
 
     <!-- Calculator Page -->
@@ -163,6 +229,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h3 class="text-lg font-semibold mb-2">Kaiten Share Calculator</h3>
+                <p class="text-gray-400 mb-4">Free online bill calculator for conveyor belt sushi restaurants</p>
+                <div class="flex justify-center space-x-6 text-sm text-gray-400">
+                    <span>Supports Sushiro & Katsu Midori</span>
+                    <span>•</span>
+                    <span>Mobile-friendly</span>
+                    <span>•</span>
+                    <span>No registration required</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="app.js"></script>
 </body>
