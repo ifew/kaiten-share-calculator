@@ -37,10 +37,10 @@
             "image": "/images/plates/katsu_midori/green.png",
             "price" : 60
         },
-        "yellow": {
-            "label_th" : "เหลือง",
-            "label_en" : "Yellow",
-            "image": "/images/plates/katsu_midori/yellow.png",
+        "orange": {
+            "label_th" : "ส้ม",
+            "label_en" : "Orange",
+            "image": "/images/plates/katsu_midori/orange.png",
             "price" : 70
         },
         "brown": {

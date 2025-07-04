@@ -43,17 +43,41 @@
             "image": "/images/plates/sushiro/black.png",
             "price" : 120
         },
+        "special80": {
+            "label_th" : "จานพิเศษ 80",
+            "label_en" : "Special 80",
+            "image": "",
+            "price" : 80
+        },
         "special100": {
             "label_th" : "จานพิเศษ 100",
             "label_en" : "Special 100",
-            "image": "/images/plates/sushiro/special100.png",
+            "image": "",
             "price" : 100
         },
-        "special150": {
-            "label_th" : "จานพิเศษ 150",
-            "label_en" : "Special 150",
-            "image": "/images/plates/sushiro/special150.png",
-            "price" : 150
+        "special140": {
+            "label_th" : "จานพิเศษ 140",
+            "label_en" : "Special 140",
+            "image": "",
+            "price" : 140
+        },
+        "special160": {
+            "label_th" : "จานพิเศษ 160",
+            "label_en" : "Special 160",
+            "image": "",
+            "price" : 160
+        },
+        "special280": {
+            "label_th" : "จานพิเศษ 280",
+            "label_en" : "Special 280",
+            "image": "",
+            "price" : 280
+        },
+        "special350": {
+            "label_th" : "จานพิเศษ 350",
+            "label_en" : "Special 350",
+            "image": "",
+            "price" : 350
         }
     }
 }

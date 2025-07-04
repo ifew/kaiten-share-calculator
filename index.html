@@ -93,6 +93,32 @@
             font-size: 16px;
             border-radius: 12px;
         }
+        .participant-card {
+            transition: all 0.2s ease;
+            height: 122px;
+        }
+        .participant-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .participant-card.active {
+            border: 2px solid #3b82f6;
+            background: #eff6ff;
+        }
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
         .restaurant-card {
             min-height: 120px;
             padding: 24px;
@@ -149,26 +175,25 @@
         </div>
 
         <!-- Participants Section -->
-        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div id="participants-section" class="bg-white rounded-lg shadow-md p-4 mb-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold text-gray-800">Participants</h3>
                 <button id="add-participant" class="thumb-friendly-button bg-blue-500 text-white hover:bg-blue-600 transition-colors">
                     + Add Person
                 </button>
             </div>
-            <div id="participants-list" class="space-y-3">
+            <div id="participants-list" class="grid grid-cols-2 gap-3">
                 <!-- Participants will be populated here -->
             </div>
         </div>
 
         <!-- Plates Section -->
-        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div id="plates-section" class="bg-white rounded-lg shadow-md p-4 mb-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Plates</h3>
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Choose participant:</label>
-                <select id="participant-selector" class="thumb-friendly-input w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <!-- Options will be populated here -->
-                </select>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Currently editing for:</label>
+                <div id="selected-participant-display" class="text-lg font-semibold text-blue-600 mb-2">-</div>
+                <p class="text-sm text-gray-600">Select a participant from the list above to start adding plates</p>
             </div>
             <div id="plates-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <!-- Plates will be populated here -->
@@ -181,6 +206,11 @@
                 Show Summary
             </button>
         </div>
+        
+        <!-- Floating Button to Scroll to Participants -->
+        <button id="scroll-to-participants" class="floating-btn bg-blue-500 text-white hover:bg-blue-600 hidden">
+            ↑
+        </button>
     </div>
 
     <!-- Summary Page -->
@@ -220,11 +250,8 @@
 
             <!-- Action Buttons -->
             <div class="flex gap-4 mt-6">
-                <button id="reset-all" class="thumb-friendly-button flex-1 bg-red-500 text-white hover:bg-red-600 transition-colors">
+                <button id="reset-all" class="thumb-friendly-button w-full bg-red-500 text-white hover:bg-red-600 transition-colors">
                     Reset All
-                </button>
-                <button id="save-session" class="thumb-friendly-button flex-1 bg-blue-500 text-white hover:bg-blue-600 transition-colors">
-                    Save Session
                 </button>
             </div>
         </div>

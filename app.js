@@ -81,9 +81,10 @@ function selectRestaurant(restaurant) {
 // Initialize calculator page
 function initializeCalculator() {
     updateParticipantsList();
-    updateParticipantSelector();
+    updateSelectedParticipantDisplay();
     displayPlates();
     updateTotals();
+    setupScrollListener();
 }
 
 // Update participants list
@@ -93,46 +94,67 @@ function updateParticipantsList() {
     
     participants.forEach((participant, index) => {
         const participantDiv = document.createElement('div');
-        participantDiv.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+        const isActive = currentParticipantIndex === index;
+        participantDiv.className = `participant-card bg-white border-2 rounded-lg p-4 cursor-pointer ${isActive ? 'active' : 'border-gray-200'}`;
         
         const plateCount = getTotalPlatesForParticipant(participant.id);
         const amount = getTotalAmountForParticipant(participant.id);
         
         participantDiv.innerHTML = `
-            <div class="flex items-center flex-1">
+            <div class="flex items-center mb-2">
                 <input type="text" value="${participant.name}" 
-                       class="thumb-friendly-input bg-transparent border-none font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-                       onchange="updateParticipantName(${participant.id}, this.value)">
-                <span class="ml-4 text-sm text-gray-600">${plateCount} plates • ${formatCurrency(amount)}</span>
-            </div>
-            ${participants.length > 1 ? `
-                <button onclick="removeParticipant(${participant.id})" class="participant-remove-btn text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors">
-                    ✕
+                       class="thumb-friendly-input bg-white border border-gray-300 rounded font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-0 flex-1 mr-2"
+                       onchange="updateParticipantName(${participant.id}, this.value)"
+                       onclick="event.stopPropagation()">
+                <button onclick="selectParticipantAndScroll(${index}); event.stopPropagation()" class="thumb-friendly-input bg-green-500 text-white hover:bg-green-600 transition-colors font-medium rounded flex-shrink-0 px-4">
+                    Edit
                 </button>
-            ` : ''}
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-600">
+                    <span class="font-medium">${plateCount} plates</span> • <span class="font-medium text-green-600">${formatCurrency(amount)}</span>
+                </div>
+                ${participants.length > 1 ? `
+                    <button onclick="confirmRemoveParticipant(${participant.id}); event.stopPropagation()" class="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors p-1 text-sm">
+                        ✕
+                    </button>
+                ` : ''}
+            </div>
         `;
         
+        participantDiv.addEventListener('click', () => selectParticipantAndScroll(index));
         participantsList.appendChild(participantDiv);
     });
 }
 
-// Update participant selector
-function updateParticipantSelector() {
-    const selector = document.getElementById('participant-selector');
-    selector.innerHTML = '';
+// Update selected participant display
+function updateSelectedParticipantDisplay() {
+    const display = document.getElementById('selected-participant-display');
+    if (participants.length > 0 && currentParticipantIndex < participants.length) {
+        const currentParticipant = participants[currentParticipantIndex];
+        display.textContent = currentParticipant.name;
+    } else {
+        display.textContent = '-';
+    }
+}
+
+// Select participant for editing
+function selectParticipant(index) {
+    currentParticipantIndex = index;
+    updateParticipantsList();
+    updateSelectedParticipantDisplay();
+    displayPlates();
+}
+
+// Select participant and scroll to plates section
+function selectParticipantAndScroll(index) {
+    selectParticipant(index);
     
-    participants.forEach(participant => {
-        const option = document.createElement('option');
-        option.value = participant.id;
-        option.textContent = participant.name;
-        selector.appendChild(option);
-    });
-    
-    selector.value = participants[currentParticipantIndex].id;
-    selector.onchange = (e) => {
-        currentParticipantIndex = participants.findIndex(p => p.id == e.target.value);
-        displayPlates(); // Refresh plates display to show correct counts for selected participant
-    };
+    // Scroll to plates section
+    const platesSection = document.getElementById('plates-section');
+    if (platesSection) {
+        platesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 // Display plates for current restaurant
@@ -148,10 +170,15 @@ function displayPlates() {
         const count = plateSelections[currentParticipant.id]?.[plateColor] || 0;
         
         plateDiv.innerHTML = `
-            <img src="${plateData.image}" alt="${plateData.label_en} plate - ${formatCurrency(plateData.price)}" 
-                 class="w-16 h-16 mx-auto mb-2 rounded-full object-cover" loading="lazy">
+            ${plateData.image && plateData.image.trim() !== '' ? `
+                <img src="${plateData.image}" alt="${plateData.label_en} plate - ${formatCurrency(plateData.price)}" 
+                     class="w-16 h-16 mx-auto mb-2 rounded-full object-cover" loading="lazy">
+            ` : `
+                <div class="mx-auto mb-2 bg-gray-100 border-2 border-gray-300 rounded-lg flex items-center justify-center" style="width: 72px; height: 72px;">
+                    <span class="text-xs font-semibold text-gray-900 text-center leading-tight px-1">${plateData.label_en}</span>
+                </div>
+            `}
             <h3 class="font-medium text-gray-800 mb-1">${plateData.label_en}</h3>
-            <p class="text-sm text-gray-600 mb-2">${plateData.label_th}</p>
             <p class="text-lg font-bold text-green-600 mb-3">${formatCurrency(plateData.price)}</p>
             <div class="flex items-center justify-center gap-3">
                 <button onclick="updatePlateCount('${plateColor}', -1)" 
@@ -200,7 +227,19 @@ function addParticipant() {
     plateSelections[newId] = {};
     
     updateParticipantsList();
-    updateParticipantSelector();
+    updateSelectedParticipantDisplay();
+}
+
+// Confirm participant removal
+function confirmRemoveParticipant(id) {
+    if (participants.length <= 1) return;
+    
+    const participant = participants.find(p => p.id === id);
+    const participantName = participant ? participant.name : 'this participant';
+    
+    if (confirm(`Confirm to delete "${participantName}"?`)) {
+        removeParticipant(id);
+    }
 }
 
 // Remove participant
@@ -215,7 +254,7 @@ function removeParticipant(id) {
     }
     
     updateParticipantsList();
-    updateParticipantSelector();
+    updateSelectedParticipantDisplay();
     displayPlates();
     updateTotals();
 }
@@ -225,7 +264,7 @@ function updateParticipantName(id, newName) {
     const participant = participants.find(p => p.id === id);
     if (participant) {
         participant.name = newName;
-        updateParticipantSelector();
+        updateSelectedParticipantDisplay();
     }
 }
 
@@ -378,13 +417,37 @@ function switchToState(state) {
     currentState = state;
 }
 
+// Setup scroll listener for floating button
+function setupScrollListener() {
+    const floatingBtn = document.getElementById('scroll-to-participants');
+    const participantsSection = document.getElementById('participants-section');
+    
+    function checkScroll() {
+        if (currentState === AppState.CALCULATOR) {
+            const rect = participantsSection.getBoundingClientRect();
+            if (rect.bottom < 0) {
+                floatingBtn.classList.remove('hidden');
+            } else {
+                floatingBtn.classList.add('hidden');
+            }
+        } else {
+            floatingBtn.classList.add('hidden');
+        }
+    }
+    
+    window.addEventListener('scroll', checkScroll);
+    
+    floatingBtn.addEventListener('click', () => {
+        participantsSection.scrollIntoView({ behavior: 'smooth' });
+    });
+}
+
 // Event listeners
 document.getElementById('add-participant').addEventListener('click', addParticipant);
 document.getElementById('back-to-restaurants').addEventListener('click', () => switchToState(AppState.RESTAURANT_SELECTION));
 document.getElementById('back-to-calculator').addEventListener('click', () => switchToState(AppState.CALCULATOR));
 document.getElementById('show-summary').addEventListener('click', showSummary);
 document.getElementById('reset-all').addEventListener('click', resetAll);
-document.getElementById('save-session').addEventListener('click', saveSession);
 
 // Load saved session on startup
 window.addEventListener('load', () => {
