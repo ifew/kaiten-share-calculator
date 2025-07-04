@@ -1,0 +1,125 @@
+  {
+    "restaurantName": "Yijia Suki Mala",
+    "restaurantDescription": "Yijia Suki Mala is a my very hot pot",
+    "restaurantLogo": "/images/logo_restaurants/yijia_suki_mala.png",
+    "restaurantId": "yijia_suki_mala",
+    "currency": "THB",
+    "currencySymbol": "฿",
+    "currencyPosition": "after",
+    "currencyDecimalDigits": 2,
+    "currencyDecimalSeparator": ".",
+    "currencyThousandsSeparator": ",",
+    "currencyNegativeFormat": "-%s",
+    "currencyPositiveFormat": "%s",
+    "currencySpaceBetweenAmountAndSymbol": false,
+    "serviceCharge": 0.0,
+    "vat": 0.0,
+    "vatIncluded": true,
+    "serviceChargeIncluded": true,
+    "vatLabel": "VAT",
+    "serviceChargeLabel": "Service Charge",
+    "plates": {
+        "soup1": {
+            "label_th" : "1 ซุป 49 บ",
+            "label_en" : "Soup 49THB",
+            "image": "/images/plates/yijia_suki_mala/soup1.png",
+            "price" : 49
+        },
+        "soup2": {
+            "label_th" : "2 ซุป 59 บ",
+            "label_en" : "Soup 59THB",
+            "image": "/images/plates/yijia_suki_mala/soup2.png",
+            "price" : 59
+        },
+        "soup_grill": {
+            "label_th" : "ซุปและย่าง 69 บ",
+            "label_en" : "Soup and Grill 69THB",
+            "image": "/images/plates/yijia_suki_mala/soup_grill.png",
+            "price" : 69
+        },
+        "sauce": {
+            "label_th" : "น้ำจิ้ม 29 บ",
+            "label_en" : "Sauce 29THB",
+            "image": "/images/plates/yijia_suki_mala/sauce.png",
+            "price" : 29
+        },
+        "red": {
+            "label_th" : "ไม้แดง",
+            "label_en" : "ไม้แดง",
+            "image": "/images/plates/yijia_suki_mala/red.png",
+            "price" : 5
+        },
+        "yellow": {
+            "label_th" : "ไม้เหลือง",
+            "label_en" : "ไม้เหลือง",
+            "image": "/images/plates/yijia_suki_mala/yellow.png",
+            "price" : 10
+        },
+        "green": {
+            "label_th" : "ไม้เขียว",
+            "label_en" : "ไม้เขียว",
+            "image": "/images/plates/yijia_suki_mala/green.png",
+            "price" : 20
+        },
+        "orange_dish": {
+            "label_th" : "ถามส้ม",
+            "label_en" : "ถามส้ม",
+            "image": "/images/plates/yijia_suki_mala/orange_dish.png",
+            "price" : 20
+        },
+        "white_dish": {
+            "label_th" : "ถาดขาว/กระบอกเล็ก",
+            "label_en" : "ถาดขาว/กระบอกเล็ก",
+            "image": "/images/plates/yijia_suki_mala/white_dish.png",
+            "price" : 30
+        },
+        "red_dish": {
+            "label_th" : "ถาดแดง/กระบอกใหญ่",
+            "label_en" : "ถาดแดง/กระบอกใหญ่",
+            "image": "/images/plates/yijia_suki_mala/red_dish.png",
+            "price" : 50
+        },
+        "yellow_dish": {
+            "label_th" : "ถาดเหลือง",
+            "label_en" : "ถาดเหลือง",
+            "image": "/images/plates/yijia_suki_mala/yellow_dish.png",
+            "price" : 80
+        },
+        "vegetable_dish": {
+            "label_th" : "ชุดผัก",
+            "label_en" : "ชุดผัก",
+            "image": "/images/plates/yijia_suki_mala/vegetable_dish.png",
+            "price" : 30
+        },
+        "drink15": {
+            "label_th" : "น้ำดื่ม 15 บ",
+            "label_en" : "Drink 15THB",
+            "image": "/images/plates/yijia_suki_mala/drink15.png",
+            "price" : 15
+        },
+        "drink25": {
+            "label_th" : "น้ำดื่ม 25 บ",
+            "label_en" : "Drink 25THB",
+            "image": "/images/plates/yijia_suki_mala/drink25.png",
+            "price" : 25
+        },
+        "drink40": {
+            "label_th" : "น้ำดื่ม 40 บ",
+            "label_en" : "Drink 40THB",
+            "image": "/images/plates/yijia_suki_mala/drink40.png",
+            "price" : 40
+        },
+        "beer100": {
+            "label_th" : "เบียร์ 100 บ",
+            "label_en" : "เบียร์ 100THB",
+            "image": "/images/plates/yijia_suki_mala/beer100.png",
+            "price" : 100
+        },
+        "beer120": {
+            "label_th" : "เบียร์ 120 บ",
+            "label_en" : "เบียร์ 120THB",
+            "image": "/images/plates/yijia_suki_mala/beer120.png",
+            "price" : 120
+        }
+    }
+}

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Load restaurants from config files
 async function loadRestaurants() {
-    const restaurantFiles = ['sushiro.json', 'katsu_midori.json'];
+    const restaurantFiles = ['sushiro.json', 'katsu_midori.json', 'yijia_suki_mala.json'];
     const restaurants = [];
     
     for (const file of restaurantFiles) {
