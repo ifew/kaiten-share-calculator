@@ -1,6 +1,6 @@
 # Kaiten Share Calculator
 
-🍣 Conveyor Belt Sushi Bill Calculator - Web App for Thailand
+🍣 Conveyor Belt Sushi/Mala Bill Calculator - Web App for Thailand
 
 ## 🌟 Features
 
