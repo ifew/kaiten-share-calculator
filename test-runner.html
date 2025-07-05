@@ -115,7 +115,7 @@
                 const plates = {
                     red: { count: 5, price: 40 },
                     silver: { count: 3, price: 60 },
-                    gold: { count: 11, price: 80 },
+                    gold: { count: 1, price: 80 },
                     black: { count: 1, price: 120 },
                     special70: { count: 3, price: 70 }
                 };
@@ -134,34 +134,34 @@
                 const vatAmount = totalWithService - netAmount;
                 
                 // Verify results
-                if (totalPlates === 23) {
+                if (totalPlates === 13) {
                     addResult('Plates Count', 'pass', `${totalPlates} plates ✅`);
                 } else {
-                    addResult('Plates Count', 'fail', `Expected 23, got ${totalPlates} ❌`);
+                    addResult('Plates Count', 'fail', `Expected 13, got ${totalPlates} ❌`);
                 }
                 
-                if (subtotal === 1590) {
+                if (subtotal === 790) {
                     addResult('Subtotal', 'pass', `฿${subtotal} ✅`);
                 } else {
-                    addResult('Subtotal', 'fail', `Expected ฿1590, got ฿${subtotal} ❌`);
+                    addResult('Subtotal', 'fail', `Expected ฿790, got ฿${subtotal} ❌`);
                 }
                 
-                if (serviceCharge === 159) {
+                if (serviceCharge === 79) {
                     addResult('Service Charge', 'pass', `฿${serviceCharge} ✅`);
                 } else {
-                    addResult('Service Charge', 'fail', `Expected ฿159, got ฿${serviceCharge} ❌`);
+                    addResult('Service Charge', 'fail', `Expected ฿79, got ฿${serviceCharge} ❌`);
                 }
                 
-                if (totalWithService === 1749) {
+                if (totalWithService === 869) {
                     addResult('Total', 'pass', `฿${totalWithService} ✅`);
                 } else {
-                    addResult('Total', 'fail', `Expected ฿1749, got ฿${totalWithService} ❌`);
+                    addResult('Total', 'fail', `Expected ฿869, got ฿${totalWithService} ❌`);
                 }
                 
-                if (Math.abs(vatAmount - 114.42) < 0.01) {
+                if (Math.abs(vatAmount - 56.85) < 0.01) {
                     addResult('VAT Amount', 'pass', `฿${vatAmount.toFixed(2)} ✅`);
                 } else {
-                    addResult('VAT Amount', 'fail', `Expected ฿114.42, got ฿${vatAmount.toFixed(2)} ❌`);
+                    addResult('VAT Amount', 'fail', `Expected ฿56.85, got ฿${vatAmount.toFixed(2)} ❌`);
                 }
                 
                 addInfo('Test Case 2 completed ✅');

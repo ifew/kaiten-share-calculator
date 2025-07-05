@@ -47,7 +47,7 @@ const testCase2 = {
     plates: {
         red: { count: 5, price: 40 },
         silver: { count: 3, price: 60 },
-        gold: { count: 11, price: 80 },
+        gold: { count: 1, price: 80 },
         black: { count: 1, price: 120 },
         special70: { count: 3, price: 70 }
     }
@@ -84,8 +84,8 @@ console.log(`Total: ฿3069 vs ฿${totalWithService1} ${totalWithService1 === 3
 console.log(`VAT: ฿200.77 vs ฿${vatAmount1.toFixed(2)} ${Math.abs(vatAmount1 - 200.77) < 0.01 ? '✅' : '❌'}`);
 
 console.log('\nTest Case 2 Expected vs Actual:');
-console.log(`Plates: 23 vs ${totalPlates2} ${totalPlates2 === 23 ? '✅' : '❌'}`);
-console.log(`Subtotal: ฿1590 vs ฿${subtotal2} ${subtotal2 === 1590 ? '✅' : '❌'}`);
-console.log(`Service: ฿159 vs ฿${serviceCharge2} ${serviceCharge2 === 159 ? '✅' : '❌'}`);
-console.log(`Total: ฿1749 vs ฿${totalWithService2} ${totalWithService2 === 1749 ? '✅' : '❌'}`);
-console.log(`VAT: ฿114.42 vs ฿${vatAmount2.toFixed(2)} ${Math.abs(vatAmount2 - 114.42) < 0.01 ? '✅' : '❌'}`);
+console.log(`Plates: 13 vs ${totalPlates2} ${totalPlates2 === 13 ? '✅' : '❌'}`);
+console.log(`Subtotal: ฿790 vs ฿${subtotal2} ${subtotal2 === 790 ? '✅' : '❌'}`);
+console.log(`Service: ฿79 vs ฿${serviceCharge2} ${serviceCharge2 === 79 ? '✅' : '❌'}`);
+console.log(`Total: ฿869 vs ฿${totalWithService2} ${totalWithService2 === 869 ? '✅' : '❌'}`);
+console.log(`VAT: ฿56.85 vs ฿${vatAmount2.toFixed(2)} ${Math.abs(vatAmount2 - 56.85) < 0.01 ? '✅' : '❌'}`);

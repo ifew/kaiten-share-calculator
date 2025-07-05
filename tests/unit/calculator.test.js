@@ -69,15 +69,15 @@ const testCase2Data = {
         { id: 1, name: "Person 1" }
     ],
     plateSelections: {
-        1: { red: 5, silver: 3, gold: 11, black: 1, special70: 3 }
+        1: { red: 5, silver: 3, gold: 1, black: 1, special70: 3 }
     },
     expectedResults: {
-        totalPlates: 23,
-        subtotal: 1590, // 5*40 + 3*60 + 11*80 + 1*120 + 3*70 = 200+180+880+120+210 = 1590
-        serviceCharge: 159,
-        totalBeforeVAT: 1749,
-        vatAmount: 114.42, // 1749 - (1749/1.07) = 114.42 (rounded)
-        netAmount: 1634.58 // 1749/1.07 = 1634.58 (rounded)
+        totalPlates: 13,
+        subtotal: 790, // 5*40 + 3*60 + 1*80 + 1*120 + 3*70 = 200+180+80+120+210 = 790
+        serviceCharge: 79,
+        totalBeforeVAT: 869,
+        vatAmount: 56.85, // 869 - (869/1.07) = 56.85 (rounded)
+        netAmount: 812.15 // 869/1.07 = 812.15 (rounded)
     }
 };
 
@@ -274,28 +274,28 @@ describe("Kaiten Share Calculator - Integration Tests", () => {
         test("should calculate correct total plates", () => {
             const totalPlates = participants.reduce((sum, participant) => 
                 sum + getTotalPlatesForParticipant(participant.id, plateSelections), 0);
-            expect(totalPlates).toBe(23);
+            expect(totalPlates).toBe(13);
         });
         
         test("should calculate correct subtotal", () => {
             const subtotal = participants.reduce((sum, participant) => 
                 sum + getTotalAmountForParticipant(participant.id, plateSelections, restaurant), 0);
-            expect(subtotal).toBe(1590);
+            expect(subtotal).toBe(790);
         });
         
         test("should calculate correct service charge", () => {
-            const subtotal = 1590;
+            const subtotal = 790;
             const serviceCharge = calculateServiceCharge(subtotal, restaurant.serviceCharge);
-            expect(serviceCharge).toBe(159);
+            expect(serviceCharge).toBe(79);
         });
         
         test("should calculate correct VAT extraction", () => {
-            const totalWithServiceCharge = 1749; // Updated total: 1590 + 159 = 1749
+            const totalWithServiceCharge = 869; // Updated total: 790 + 79 = 869
             const { netAmount, vatAmount } = calculateVATIncluded(totalWithServiceCharge, restaurant.vat);
             
             // Allow for small rounding differences
-            expect(Math.abs(netAmount - 1634.58)).toBeLessThan(0.01);
-            expect(Math.abs(vatAmount - 114.42)).toBeLessThan(0.01);
+            expect(Math.abs(netAmount - 812.15)).toBeLessThan(0.01);
+            expect(Math.abs(vatAmount - 56.85)).toBeLessThan(0.01);
         });
     });
 });

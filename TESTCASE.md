@@ -57,34 +57,34 @@ VAT amount: ฿3,069 - ฿2,868.23 = ฿200.77
 - **Plates Ordered**:
   - Red (฿40): 5 plates
   - Silver (฿60): 3 plates
-  - Gold (฿80): 11 plates
+  - Gold (฿80): 1 plates
   - Black (฿120): 1 plate
   - Special70 (฿70): 3 plates
 
 ### Expected Results
-- **Total Plates**: 23 plates
-- **Subtotal (รวม VAT)**: ฿1,590
-- **Service Charge (10%)**: ฿159
-- **Total Before VAT Deduction**: ฿1,749
-- **VAT Deducted**: ฿114.42
-- **Net Amount (After VAT Deduction)**: ฿1,634.58
+- **Total Plates**: 13 plates
+- **Subtotal (รวม VAT)**: ฿790
+- **Service Charge (10%)**: ฿79
+- **Total Before VAT Deduction**: ฿869
+- **VAT Deducted**: ฿56.85
+- **Net Amount (After VAT Deduction)**: ฿812.15
 
 ### Calculation Breakdown
 ```
 Plate costs calculation:
 - Red: 5 × ฿40 = ฿200
 - Silver: 3 × ฿60 = ฿180
-- Gold: 11 × ฿80 = ฿880
+- Gold: 1 × ฿80 = ฿80
 - Black: 1 × ฿120 = ฿120
 - Special70: 3 × ฿70 = ฿210
-Total plates: ฿1,590
+Total plates: ฿790
 
-Service charge: ฿1,590 × 10% = ฿159
-Total before VAT deduction: ฿1,590 + ฿159 = ฿1,749
+Service charge: ฿790 × 10% = ฿79
+Total before VAT deduction: ฿790 + ฿79 = ฿869
 
 VAT extraction (since VAT is included):
-Net amount: ฿1,749 ÷ 1.07 = ฿1,634.58
-VAT amount: ฿1,749 - ฿1,634.58 = ฿114.42
+Net amount: ฿869 ÷ 1.07 = ฿812.15
+VAT amount: ฿869 - ฿812.15 = ฿56.85
 ```
 
 ## Test Case 3: VAT Not Included Scenario
