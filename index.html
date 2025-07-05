@@ -119,41 +119,18 @@
         .floating-btn:hover {
             transform: scale(1.1);
         }
-        .plate-tooltip {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 10;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            color: white;
-            pointer-events: none;
-            animation: tooltipBounce 1.5s ease-out forwards;
+        /* Prevent double-tap zoom on mobile */
+        button, .cursor-pointer {
+            touch-action: manipulation;
         }
-        .plate-tooltip.positive {
-            background-color: #10b981;
-        }
-        .plate-tooltip.negative {
-            background-color: #ef4444;
-        }
-        @keyframes tooltipBounce {
-            0% {
-                opacity: 0;
-                transform: translateY(0) scale(0.8);
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(-10px) scale(1.1);
-            }
-            60% {
-                transform: translateY(-5px) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-15px) scale(0.9);
-            }
+        /* Prevent text selection on interactive elements */
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         .restaurant-card {
             min-height: 120px;
@@ -236,7 +213,7 @@
                     <label class="text-sm font-medium text-gray-700">กำลังแก้ไขของคุณ:</label>
                     <div id="selected-participant-display" class="text-lg font-semibold text-blue-600">-</div>
                 </div>
-                <p class="text-sm text-gray-500">tips: เพิ่มจำนวนจาน ด้วยการคลิกที่จาน, ลบจาน ให้กดปุ่มลบ</p>
+                <p class="text-sm text-gray-500">tips: เพิ่มจำนวนจาน ด้วยการคลิกที่จาน, ลบจาน ให้กดปุ่มลบ และหากไม่เจอเมนู ให้เลือกไอเท็มราคาที่เหมือนกัน</p>
             </div>
             <div id="plates-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <!-- Plates will be populated here -->

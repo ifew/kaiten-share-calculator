@@ -177,7 +177,7 @@ function displayPlates() {
     
     Object.entries(currentRestaurant.plates).forEach(([plateColor, plateData]) => {
         const plateDiv = document.createElement('div');
-        plateDiv.className = 'bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-shadow relative';
+        plateDiv.className = 'bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-shadow relative no-select';
         plateDiv.setAttribute('data-plate', plateColor);
         plateDiv.setAttribute('data-plate-color', plateColor);
         
@@ -216,34 +216,8 @@ function displayPlates() {
     });
 }
 
-// Show tooltip animation
-function showPlateTooltip(plateColor, delta) {
-    const plateElements = document.querySelectorAll('.bg-white.rounded-lg.shadow-md.p-4.text-center');
-    
-    // Find the correct plate element by checking its content
-    let targetPlate = null;
-    plateElements.forEach(plate => {
-        const plateLabel = plate.querySelector('h3');
-        if (plateLabel && plateLabel.textContent === currentRestaurant.plates[plateColor].label_en) {
-            targetPlate = plate;
-        }
-    });
-    
-    if (targetPlate) {
-        const tooltip = document.createElement('div');
-        tooltip.className = `plate-tooltip ${delta > 0 ? 'positive' : 'negative'}`;
-        tooltip.textContent = delta > 0 ? '+1' : '-1';
-        
-        targetPlate.appendChild(tooltip);
-        
-        // Remove tooltip after animation
-        setTimeout(() => {
-            if (tooltip.parentNode) {
-                tooltip.parentNode.removeChild(tooltip);
-            }
-        }, 1500);
-    }
-}
+// Show tooltip animation - REMOVED
+// Tooltip functionality has been removed to improve mobile UX
 
 // Update plate count for current participant
 function updatePlateCount(plateColor, delta) {
@@ -262,11 +236,6 @@ function updatePlateCount(plateColor, delta) {
     
     const currentCount = plateSelections[currentParticipant.id][plateColor] || 0;
     const newCount = Math.max(0, currentCount + delta);
-    
-    // Only show tooltip if count actually changes
-    if (newCount !== currentCount) {
-        showPlateTooltip(plateColor, delta);
-    }
     
     if (newCount === 0) {
         delete plateSelections[currentParticipant.id][plateColor];
@@ -752,7 +721,6 @@ if (typeof module !== 'undefined' && module.exports) {
         displayPlates,
         updateParticipantsList,
         updateSelectedParticipantDisplay,
-        showPlateTooltip,
         
         // Summary functions
         generateSummaryTable,
