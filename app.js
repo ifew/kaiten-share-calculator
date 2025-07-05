@@ -198,7 +198,8 @@ function displayPlates() {
             <div class="flex items-center justify-center gap-3">
                 ${count > 0 ? `
                     <button onclick="updatePlateCount('${plateColor}', -1); event.stopPropagation()" 
-                            class="plate-button bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors">
+                            class="bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                            style="width: 24px; height: 24px; font-size: 14px; display: flex; align-items: center; justify-content: center;">
                         −
                     </button>
                 ` : ''}
