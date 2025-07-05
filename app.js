@@ -120,9 +120,9 @@ function updateParticipantsList() {
                        onchange="updateParticipantName(${participant.id}, this.value)"
                        onclick="event.stopPropagation()">
             </div>
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between" style="height: 28px;">
                 <div class="text-sm text-gray-600">
-                    <span class="font-medium">${plateCount} plates</span> • <span class="font-medium text-green-600">${formatCurrency(amount)}</span>
+                    <span class="font-medium">${plateCount} จาน</span> <span class="font-medium text-green-600">${formatCurrency(amount)}</span>
                 </div>
                 ${participants.length > 1 ? `
                     <button onclick="confirmRemoveParticipant(${participant.id}); event.stopPropagation()" class="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors p-1 text-sm">
