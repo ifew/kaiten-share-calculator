@@ -107,7 +107,7 @@ function updateParticipantsList() {
     participants.forEach((participant, index) => {
         const participantDiv = document.createElement('div');
         const isActive = currentParticipantIndex === index;
-        participantDiv.className = `participant-card bg-white border-2 rounded-lg p-4 cursor-pointer ${isActive ? 'active' : 'border-gray-200'}`;
+        participantDiv.className = `participant-card bg-white border-2 rounded-lg p-3 cursor-pointer ${isActive ? 'active' : 'border-gray-200'}`;
         participantDiv.setAttribute('data-participant', participant.id);
         
         const plateCount = getTotalPlatesForParticipant(participant.id);
