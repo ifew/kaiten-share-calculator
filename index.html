@@ -182,8 +182,8 @@
                 <img src="/favicon.svg" alt="Kaiten Share Calculator Logo" style="width: 5rem; height: 5rem;">
                 Kaiten Share Calculator
             </h1>
-            <p class="text-gray-600 mb-4">Fair bill splitting for conveyor belt sushi/mala restaurants in Thailand</p>
-            <p class="text-sm text-gray-500">Select a restaurant to start calculating</p>
+            <p class="text-gray-600 mb-4">คำนวณเงินค่าซูชิ/หม่าล่าสายพาน แบบกินคนเดียวและแชร์กันจ่าย</p>
+            <p class="text-sm text-gray-500">เลือกร้าน</p>
         </header>
         
         <section id="restaurant-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto" aria-label="Restaurant selection">
@@ -198,17 +198,17 @@
             <div class="flex justify-between items-center mb-2">
                 <h2 id="selected-restaurant" class="text-xl font-bold text-gray-800"></h2>
                 <button id="back-to-restaurants" class="text-blue-500 hover:text-blue-700">
-                    ← Back
+                    ← กลับไปเลือกร้าน
                 </button>
             </div>
             <div class="grid grid-cols-2 gap-4 text-center">
                 <div>
                     <p class="text-2xl font-bold text-blue-600" id="total-plates">0</p>
-                    <p class="text-sm text-gray-600">Total Plates</p>
+                    <p class="text-sm text-gray-600">จำนวนจาน</p>
                 </div>
                 <div>
                     <p class="text-2xl font-bold text-green-600" id="total-amount">฿0.00</p>
-                    <p class="text-sm text-gray-600">Total Amount</p>
+                    <p class="text-sm text-gray-600">ยอดรวม</p>
                 </div>
             </div>
         </div>
@@ -216,9 +216,9 @@
         <!-- Participants Section -->
         <div id="participants-section" class="bg-white rounded-lg shadow-md p-4 mb-6">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Participants</h3>
+                <h3 class="text-lg font-semibold text-gray-800">ใครกินบ้าง</h3>
                 <button id="add-participant" class="thumb-friendly-button bg-blue-500 text-white hover:bg-blue-600 transition-colors">
-                    + Add Person
+                    + เพิ่มคน
                 </button>
             </div>
             <p class="text-sm text-gray-500" style="margin-bottom: 10px;">tips: เพิ่มจำนวนคน หรือแก้ไขชื่อ ตามที่ต้องการ</p>
@@ -230,10 +230,10 @@
 
         <!-- Plates Section -->
         <div id="plates-section" class="bg-white rounded-lg shadow-md p-4 mb-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Plates</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">เลือกจาน</h3>
             <div class="mb-4">
                 <div class="flex items-center gap-2 mb-2">
-                    <label class="text-sm font-medium text-gray-700">Currently editing for:</label>
+                    <label class="text-sm font-medium text-gray-700">กำลังแก้ไขของคุณ:</label>
                     <div id="selected-participant-display" class="text-lg font-semibold text-blue-600">-</div>
                 </div>
                 <p class="text-sm text-gray-500">tips: เพิ่มจำนวนจาน ด้วยการคลิกที่จาน, ลบจาน ให้กดปุ่มลบ</p>
@@ -246,7 +246,7 @@
         <!-- Summary Button -->
         <div class="text-center">
             <button id="show-summary" class="w-full bg-green-500 text-white text-lg font-semibold hover:bg-green-600 transition-colors rounded-lg" style="min-height: 58px; padding: 16px 20px; font-size: 18px;">
-                สรุปบิล/Summary
+                สรุปบิล
             </button>
         </div>
         
@@ -260,9 +260,9 @@
     <div id="summary-page" class="hidden container mx-auto px-4 py-4">
         <div class="bg-white rounded-lg shadow-md p-3">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-gray-800">Bill Summary</h2>
+                <h2 class="text-xl font-bold text-gray-800">สรุปบิล</h2>
                 <button id="back-to-calculator" class="text-blue-500 hover:text-blue-700">
-                    ← Back to Edit
+                    ← กลับไปแก้ไข
                 </button>
             </div>
 
@@ -271,10 +271,10 @@
                 <table class="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr class="bg-gray-100">
-                            <th class="border border-gray-300 p-2 text-left">Participant</th>
-                            <th class="border border-gray-300 p-2 text-center">Plates</th>
-                            <th class="border border-gray-300 p-2 text-right">Subtotal</th>
-                            <th class="border border-gray-300 p-2 text-right">Total</th>
+                            <th class="border border-gray-300 p-2 text-left">ใครกินบ้าง</th>
+                            <th class="border border-gray-300 p-2 text-center">จำนวนจาน</th>
+                            <th class="border border-gray-300 p-2 text-right">ราคาจาน(บ)</th>
+                            <th class="border border-gray-300 p-2 text-right">ราคาจ่าย(บ)</th>
                         </tr>
                     </thead>
                     <tbody id="summary-table-body">
@@ -286,7 +286,7 @@
             <!-- Grand Total -->
             <div class="border-t pt-4">
                 <div class="flex justify-between items-center text-lg font-semibold">
-                    <span>Grand Total:</span>
+                    <span>ราคารวมสุทธิ:</span>
                     <span id="grand-total" class="text-green-600">฿0.00</span>
                 </div>
             </div>
