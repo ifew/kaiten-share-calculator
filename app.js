@@ -195,15 +195,17 @@ function displayPlates() {
             `}
             <h3 class="font-medium text-gray-800 mb-1">${plateData.label_en}</h3>
             <p class="text-lg font-bold text-green-600 mb-3">${formatCurrency(plateData.price)}</p>
-            <div class="flex items-center justify-center gap-3">
+            <div class="flex items-center">
                 ${count > 0 ? `
                     <button onclick="updatePlateCount('${plateColor}', -1); event.stopPropagation()" 
-                            class="bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                            style="width: 24px; height: 24px; font-size: 14px; display: flex; align-items: center; justify-content: center;">
+                            class="bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex-1 flex items-center justify-center"
+                            style="height: 32px; font-size: 16px;">
                         −
                     </button>
-                ` : ''}
-                <span class="text-xl font-bold text-gray-800 min-w-12 text-center">${count}</span>
+                    <span class="text-xl font-bold text-gray-800 flex-1 text-center">${count}</span>
+                ` : `
+                    <span class="text-xl font-bold text-gray-800 w-full text-center">${count}</span>
+                `}
             </div>
         `;
         
