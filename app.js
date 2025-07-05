@@ -14,16 +14,18 @@ const AppState = {
 
 let currentState = AppState.LOADING;
 
-// Initialize application
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        await loadRestaurants();
-        switchToState(AppState.RESTAURANT_SELECTION);
-    } catch (error) {
-        console.error('Failed to load restaurants:', error);
-        alert('Failed to load restaurant data. Please refresh the page.');
-    }
-});
+// Initialize application (only in browser environment)
+if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            await loadRestaurants();
+            switchToState(AppState.RESTAURANT_SELECTION);
+        } catch (error) {
+            console.error('Failed to load restaurants:', error);
+            alert('Failed to load restaurant data. Please refresh the page.');
+        }
+    });
+}
 
 // Load restaurants from config files
 async function loadRestaurants() {
@@ -46,11 +48,13 @@ async function loadRestaurants() {
 // Display restaurants on selection page
 function displayRestaurants(restaurants) {
     const restaurantList = document.getElementById('restaurant-list');
+    if (!restaurantList) return;
     restaurantList.innerHTML = '';
     
     restaurants.forEach(restaurant => {
         const card = document.createElement('div');
         card.className = 'restaurant-card bg-white rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow';
+        card.setAttribute('data-restaurant', restaurant.restaurantId);
         card.onclick = () => selectRestaurant(restaurant);
         
         card.innerHTML = `
@@ -73,9 +77,16 @@ function selectRestaurant(restaurant) {
     currentParticipantIndex = 0;
     plateSelections = { 1: {} };
     
-    document.getElementById('selected-restaurant').textContent = restaurant.restaurantName;
-    initializeCalculator();
-    switchToState(AppState.CALCULATOR);
+    const selectedRestaurantEl = document.getElementById('selected-restaurant');
+    if (selectedRestaurantEl) {
+        selectedRestaurantEl.textContent = restaurant.restaurantName;
+    }
+    
+    // Only call DOM-dependent functions if we're in a browser environment
+    if (typeof window !== 'undefined' && window.document) {
+        initializeCalculator();
+        switchToState(AppState.CALCULATOR);
+    }
 }
 
 // Initialize calculator page
@@ -90,12 +101,14 @@ function initializeCalculator() {
 // Update participants list
 function updateParticipantsList() {
     const participantsList = document.getElementById('participants-list');
+    if (!participantsList) return;
     participantsList.innerHTML = '';
     
     participants.forEach((participant, index) => {
         const participantDiv = document.createElement('div');
         const isActive = currentParticipantIndex === index;
         participantDiv.className = `participant-card bg-white border-2 rounded-lg p-4 cursor-pointer ${isActive ? 'active' : 'border-gray-200'}`;
+        participantDiv.setAttribute('data-participant', participant.id);
         
         const plateCount = getTotalPlatesForParticipant(participant.id);
         const amount = getTotalAmountForParticipant(participant.id);
@@ -127,6 +140,8 @@ function updateParticipantsList() {
 // Update selected participant display
 function updateSelectedParticipantDisplay() {
     const display = document.getElementById('selected-participant-display');
+    if (!display) return;
+    
     if (participants.length > 0 && currentParticipantIndex < participants.length) {
         const currentParticipant = participants[currentParticipantIndex];
         display.textContent = currentParticipant.name;
@@ -157,11 +172,14 @@ function selectParticipantAndScroll(index) {
 // Display plates for current restaurant
 function displayPlates() {
     const platesGrid = document.getElementById('plates-grid');
+    if (!platesGrid || !currentRestaurant) return;
     platesGrid.innerHTML = '';
     
     Object.entries(currentRestaurant.plates).forEach(([plateColor, plateData]) => {
         const plateDiv = document.createElement('div');
         plateDiv.className = 'bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-shadow relative';
+        plateDiv.setAttribute('data-plate', plateColor);
+        plateDiv.setAttribute('data-plate-color', plateColor);
         
         const currentParticipant = participants[currentParticipantIndex];
         const count = plateSelections[currentParticipant.id]?.[plateColor] || 0;
@@ -226,7 +244,15 @@ function showPlateTooltip(plateColor, delta) {
 
 // Update plate count for current participant
 function updatePlateCount(plateColor, delta) {
+    if (participants.length === 0 || currentParticipantIndex >= participants.length) {
+        return; // No participants to update
+    }
+    
     const currentParticipant = participants[currentParticipantIndex];
+    if (!currentParticipant) {
+        return; // Invalid participant
+    }
+    
     if (!plateSelections[currentParticipant.id]) {
         plateSelections[currentParticipant.id] = {};
     }
@@ -311,6 +337,10 @@ function getTotalAmountForParticipant(participantId) {
     const selections = plateSelections[participantId] || {};
     let total = 0;
     
+    if (!currentRestaurant || !currentRestaurant.plates) {
+        return total;
+    }
+    
     Object.entries(selections).forEach(([plateColor, count]) => {
         const plateData = currentRestaurant.plates[plateColor];
         if (plateData) {
@@ -329,16 +359,36 @@ function updateTotals() {
     const totalAmount = participants.reduce((sum, participant) => 
         sum + getTotalAmountForParticipant(participant.id), 0);
     
-    document.getElementById('total-plates').textContent = totalPlates;
-    document.getElementById('total-amount').textContent = formatCurrency(totalAmount);
+    const totalPlatesEl = document.getElementById('total-plates');
+    const totalAmountEl = document.getElementById('total-amount');
+    
+    if (totalPlatesEl) totalPlatesEl.textContent = totalPlates;
+    if (totalAmountEl) totalAmountEl.textContent = formatCurrency(totalAmount);
 }
 
 // Format currency according to restaurant settings
 function formatCurrency(amount) {
-    const formatted = amount.toFixed(currentRestaurant.currencyDecimalDigits);
+    if (!currentRestaurant) {
+        // Default formatting when no restaurant is selected
+        const formatted = amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return `฿${formatted}`;
+    }
+    
+    const decimalDigits = currentRestaurant.currencyDecimalDigits || 2;
+    const thousandsSeparator = currentRestaurant.currencyThousandsSeparator || ',';
+    
+    let formatted = amount.toFixed(decimalDigits);
+    
+    // Add thousands separator
+    if (thousandsSeparator) {
+        const parts = formatted.split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
+        formatted = parts.join('.');
+    }
+    
     return currentRestaurant.currencyPosition === 'before' 
-        ? `${currentRestaurant.currencySymbol}${formatted}`
-        : `${formatted}${currentRestaurant.currencySymbol}`;
+        ? `${currentRestaurant.currencySymbol || '฿'}${formatted}`
+        : `${formatted}${currentRestaurant.currencySymbol || '฿'}`;
 }
 
 // Show summary page
@@ -348,35 +398,69 @@ function showSummary() {
         sum + getTotalPlatesForParticipant(participant.id), 0);
     
     if (totalPlates === 0) {
-        alert('Please select at least one plate before viewing the summary.');
+        if (typeof alert !== 'undefined') {
+            alert('Please select at least one plate before viewing the summary.');
+        }
         return;
     }
     
     generateSummaryTable();
     switchToState(AppState.SUMMARY);
     
-    // Scroll to top when showing summary
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to top when showing summary (only in browser)
+    if (typeof window !== 'undefined' && window.scrollTo) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
 
 // Generate summary table
 function generateSummaryTable() {
+    // Generate summary totals
+    generateSummaryTotals();
+    
+    // Generate plate breakdown table
+    generatePlateBreakdownTable();
+    
+    // Generate participant summary table
     const tableBody = document.getElementById('summary-table-body');
+    if (!tableBody) return;
     tableBody.innerHTML = '';
     
     let grandTotal = 0;
     const subtotal = participants.reduce((sum, participant) => 
         sum + getTotalAmountForParticipant(participant.id), 0);
     
-    const serviceCharge = subtotal * currentRestaurant.serviceCharge;
-    const vat = subtotal * currentRestaurant.vat;
-    const totalWithTaxes = subtotal + serviceCharge + vat;
+    let serviceCharge, vat, totalWithTaxes;
+    
+    if (currentRestaurant.vatIncluded) {
+        // VAT is included in prices - need to extract VAT from the total
+        serviceCharge = subtotal * currentRestaurant.serviceCharge;
+        const totalWithServiceCharge = subtotal + serviceCharge;
+        
+        // Calculate net amount and VAT from the total that includes VAT
+        const netAmount = totalWithServiceCharge / (1 + currentRestaurant.vat);
+        vat = totalWithServiceCharge - netAmount;
+        totalWithTaxes = totalWithServiceCharge; // Final total remains the same
+    } else {
+        // VAT is not included in prices - add VAT to the total
+        serviceCharge = subtotal * currentRestaurant.serviceCharge;
+        vat = subtotal * currentRestaurant.vat;
+        totalWithTaxes = subtotal + serviceCharge + vat;
+    }
     
     participants.forEach(participant => {
         const participantSubtotal = getTotalAmountForParticipant(participant.id);
-        const participantServiceCharge = (participantSubtotal / subtotal) * serviceCharge;
-        const participantVat = (participantSubtotal / subtotal) * vat;
-        const participantTotal = participantSubtotal + participantServiceCharge + participantVat;
+        const participantServiceCharge = subtotal > 0 ? (participantSubtotal / subtotal) * serviceCharge : 0;
+        
+        let participantTotal;
+        if (currentRestaurant.vatIncluded) {
+            // VAT is included in prices, so total is subtotal + service charge (VAT already included)
+            participantTotal = participantSubtotal + participantServiceCharge;
+        } else {
+            // VAT is not included in prices, so add VAT
+            const participantVat = subtotal > 0 ? (participantSubtotal / subtotal) * vat : 0;
+            participantTotal = participantSubtotal + participantServiceCharge + participantVat;
+        }
         
         grandTotal += participantTotal;
         
@@ -391,12 +475,29 @@ function generateSummaryTable() {
         tableBody.appendChild(row);
     });
     
-    // Add summary rows
-    const summaryRows = [
-        ['Subtotal', '', formatCurrency(subtotal), ''],
-        ['Service Charge (10%)', '', formatCurrency(serviceCharge), ''],
-        ['VAT (7%)', '', formatCurrency(vat), '']
-    ];
+    // Add summary rows based on VAT inclusion
+    const summaryRows = [];
+    
+    if (currentRestaurant.vatIncluded) {
+        // VAT is included in prices, so show breakdown with VAT extraction
+        const totalWithServiceCharge = subtotal + serviceCharge;
+        const netAmount = totalWithServiceCharge / (1 + currentRestaurant.vat);
+        
+        summaryRows.push(
+            ['ราคารวม VAT', '', formatCurrency(subtotal), ''],
+            ['Service Charge (' + Math.round(currentRestaurant.serviceCharge * 100) + '%)', '', formatCurrency(serviceCharge), ''],
+            ['รวมก่อนถอด VAT', '', formatCurrency(totalWithServiceCharge), ''],
+            ['ถอด VAT (' + Math.round(currentRestaurant.vat * 100) + '%)', '', formatCurrency(vat), ''],
+            ['ราคาสุทธิ (หลังถอด VAT)', '', formatCurrency(netAmount), '']
+        );
+    } else {
+        // VAT is not included in prices, so show "VAT" (VAT addition)
+        summaryRows.push(
+            ['ราคารวมก่อน VAT', '', formatCurrency(subtotal), ''],
+            ['Service Charge (' + Math.round(currentRestaurant.serviceCharge * 100) + '%)', '', formatCurrency(serviceCharge), ''],
+            ['VAT (' + Math.round(currentRestaurant.vat * 100) + '%)', '', formatCurrency(vat), '']
+        );
+    }
     
     summaryRows.forEach(([label, plates, amount, total]) => {
         const row = document.createElement('tr');
@@ -410,17 +511,118 @@ function generateSummaryTable() {
         tableBody.appendChild(row);
     });
     
-    document.getElementById('grand-total').textContent = formatCurrency(grandTotal);
+    const grandTotalEl = document.getElementById('grand-total');
+    if (grandTotalEl) grandTotalEl.textContent = formatCurrency(grandTotal);
+}
+
+// Generate summary totals section
+function generateSummaryTotals() {
+    const totalPlates = participants.reduce((sum, participant) => 
+        sum + getTotalPlatesForParticipant(participant.id), 0);
+    
+    const totalAmount = participants.reduce((sum, participant) => 
+        sum + getTotalAmountForParticipant(participant.id), 0);
+    
+    let grandTotal = totalAmount;
+    if (currentRestaurant) {
+        if (currentRestaurant.vatIncluded) {
+            // VAT is included in prices - final total is plates + service charge
+            const serviceCharge = totalAmount * (currentRestaurant.serviceCharge || 0);
+            grandTotal = totalAmount + serviceCharge;
+        } else {
+            // VAT is not included in prices - add service charge and VAT
+            const serviceCharge = totalAmount * (currentRestaurant.serviceCharge || 0);
+            const vat = totalAmount * (currentRestaurant.vat || 0);
+            grandTotal = totalAmount + serviceCharge + vat;
+        }
+    }
+    
+    const summaryTotalPlatesEl = document.getElementById('summary-total-plates');
+    const summaryTotalAmountEl = document.getElementById('summary-total-amount');
+    
+    if (summaryTotalPlatesEl) summaryTotalPlatesEl.textContent = totalPlates;
+    if (summaryTotalAmountEl) summaryTotalAmountEl.textContent = formatCurrency(grandTotal);
+}
+
+// Generate plate breakdown table
+function generatePlateBreakdownTable() {
+    const tableBody = document.getElementById('plate-breakdown-table-body');
+    if (!tableBody) return;
+    tableBody.innerHTML = '';
+    
+    // Collect all plate counts by type
+    const plateCounts = {};
+    
+    participants.forEach(participant => {
+        const participantPlates = plateSelections[participant.id] || {};
+        Object.entries(participantPlates).forEach(([plateColor, count]) => {
+            if (count > 0) {
+                plateCounts[plateColor] = (plateCounts[plateColor] || 0) + count;
+            }
+        });
+    });
+    
+    // Sort plates by price (highest first)
+    const sortedPlates = Object.entries(plateCounts).sort((a, b) => {
+        const priceA = currentRestaurant.plates[a[0]]?.price || 0;
+        const priceB = currentRestaurant.plates[b[0]]?.price || 0;
+        return priceB - priceA;
+    });
+    
+    // Generate rows for each plate type
+    sortedPlates.forEach(([plateColor, count]) => {
+        const plateInfo = currentRestaurant.plates[plateColor];
+        if (!plateInfo) return;
+        
+        const platePrice = plateInfo.price;
+        const totalPrice = platePrice * count;
+        const plateLabel = plateInfo.label_th || plateInfo.label_en || plateColor;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="border border-gray-300 p-2 font-medium text-sm">${plateLabel}</td>
+            <td class="border border-gray-300 p-2 text-center text-sm">${count}</td>
+            <td class="border border-gray-300 p-2 text-right text-sm">${formatCurrency(platePrice)}</td>
+            <td class="border border-gray-300 p-2 text-right font-semibold text-sm">${formatCurrency(totalPrice)}</td>
+        `;
+        
+        tableBody.appendChild(row);
+    });
+    
+    // Add total row
+    const totalPlates = Object.values(plateCounts).reduce((sum, count) => sum + count, 0);
+    const totalAmount = Object.entries(plateCounts).reduce((sum, [plateColor, count]) => {
+        const platePrice = currentRestaurant.plates[plateColor]?.price || 0;
+        return sum + (platePrice * count);
+    }, 0);
+    
+    if (totalPlates > 0) {
+        const totalRow = document.createElement('tr');
+        totalRow.className = 'bg-gray-100 font-semibold';
+        totalRow.innerHTML = `
+            <td class="border border-gray-300 p-2 text-sm">รวม</td>
+            <td class="border border-gray-300 p-2 text-center text-sm">${totalPlates}</td>
+            <td class="border border-gray-300 p-2 text-right text-sm">-</td>
+            <td class="border border-gray-300 p-2 text-right text-sm">${formatCurrency(totalAmount)}</td>
+        `;
+        
+        tableBody.appendChild(totalRow);
+    }
 }
 
 // Reset all data
 function resetAll() {
-    if (confirm('Are you sure you want to reset all data?')) {
+    const shouldReset = typeof confirm !== 'undefined' ? 
+        confirm('Are you sure you want to reset all data?') : true;
+        
+    if (shouldReset) {
         participants = [{ id: 1, name: '1' }];
         currentParticipantIndex = 0;
         plateSelections = { 1: {} };
         
-        localStorage.removeItem('kaiten-calculator-session');
+        if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('kaiten-calculator-session');
+        }
         
         switchToState(AppState.RESTAURANT_SELECTION);
     }
@@ -428,6 +630,13 @@ function resetAll() {
 
 // Save session to localStorage
 function saveSession() {
+    if (!currentRestaurant) {
+        if (typeof alert !== 'undefined') {
+            alert('No restaurant selected to save session.');
+        }
+        return;
+    }
+    
     const sessionData = {
         restaurant: currentRestaurant.restaurantId,
         participants: participants,
@@ -435,20 +644,31 @@ function saveSession() {
         timestamp: new Date().toISOString()
     };
     
-    localStorage.setItem('kaiten-calculator-session', JSON.stringify(sessionData));
-    alert('Session saved successfully!');
+    if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('kaiten-calculator-session', JSON.stringify(sessionData));
+    }
+    
+    if (typeof alert !== 'undefined') {
+        alert('Session saved successfully!');
+    }
 }
 
 // Switch between application states
 function switchToState(state) {
     // Hide all pages
-    document.getElementById('loading').classList.add('hidden');
-    document.getElementById('restaurant-selection').classList.add('hidden');
-    document.getElementById('calculator-page').classList.add('hidden');
-    document.getElementById('summary-page').classList.add('hidden');
+    const loadingEl = document.getElementById('loading');
+    const restaurantSelectionEl = document.getElementById('restaurant-selection');
+    const calculatorPageEl = document.getElementById('calculator-page');
+    const summaryPageEl = document.getElementById('summary-page');
+    
+    if (loadingEl) loadingEl.classList.add('hidden');
+    if (restaurantSelectionEl) restaurantSelectionEl.classList.add('hidden');
+    if (calculatorPageEl) calculatorPageEl.classList.add('hidden');
+    if (summaryPageEl) summaryPageEl.classList.add('hidden');
     
     // Show target page
-    document.getElementById(state).classList.remove('hidden');
+    const targetEl = document.getElementById(state);
+    if (targetEl) targetEl.classList.remove('hidden');
     currentState = state;
 }
 
@@ -477,22 +697,91 @@ function setupScrollListener() {
     });
 }
 
-// Event listeners
-document.getElementById('add-participant').addEventListener('click', addParticipant);
-document.getElementById('back-to-restaurants').addEventListener('click', () => switchToState(AppState.RESTAURANT_SELECTION));
-document.getElementById('back-to-calculator').addEventListener('click', () => switchToState(AppState.CALCULATOR));
-document.getElementById('show-summary').addEventListener('click', showSummary);
-document.getElementById('reset-all').addEventListener('click', resetAll);
+// Event listeners (only in browser environment)
+if (typeof window !== 'undefined' && window.document) {
+    const addParticipantBtn = document.getElementById('add-participant');
+    const backToRestaurantsBtn = document.getElementById('back-to-restaurants');
+    const backToCalculatorBtn = document.getElementById('back-to-calculator');
+    const showSummaryBtn = document.getElementById('show-summary');
+    const resetAllBtn = document.getElementById('reset-all');
+    
+    if (addParticipantBtn) addParticipantBtn.addEventListener('click', addParticipant);
+    if (backToRestaurantsBtn) backToRestaurantsBtn.addEventListener('click', () => switchToState(AppState.RESTAURANT_SELECTION));
+    if (backToCalculatorBtn) backToCalculatorBtn.addEventListener('click', () => switchToState(AppState.CALCULATOR));
+    if (showSummaryBtn) showSummaryBtn.addEventListener('click', showSummary);
+    if (resetAllBtn) resetAllBtn.addEventListener('click', resetAll);
+}
 
-// Load saved session on startup
-window.addEventListener('load', () => {
-    const savedSession = localStorage.getItem('kaiten-calculator-session');
-    if (savedSession) {
-        try {
-            const sessionData = JSON.parse(savedSession);
-            // Could implement session restoration here
-        } catch (error) {
-            console.error('Failed to load saved session:', error);
+// Load saved session on startup (only in browser environment)
+if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('load', () => {
+        const savedSession = localStorage.getItem('kaiten-calculator-session');
+        if (savedSession) {
+            try {
+                const sessionData = JSON.parse(savedSession);
+                // Could implement session restoration here
+            } catch (error) {
+                console.error('Failed to load saved session:', error);
+            }
         }
-    }
-});
+    });
+}
+
+// Export functions for testing (Node.js environment)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        // Core calculation functions
+        getTotalPlatesForParticipant,
+        getTotalAmountForParticipant,
+        formatCurrency,
+        
+        // State management functions
+        selectRestaurant,
+        addParticipant,
+        removeParticipant,
+        confirmRemoveParticipant,
+        updateParticipantName,
+        selectParticipant,
+        updatePlateCount,
+        
+        // Display functions
+        displayRestaurants,
+        displayPlates,
+        updateParticipantsList,
+        updateSelectedParticipantDisplay,
+        showPlateTooltip,
+        
+        // Summary functions
+        generateSummaryTable,
+        generateSummaryTotals,
+        generatePlateBreakdownTable,
+        showSummary,
+        
+        // Utility functions
+        updateTotals,
+        switchToState,
+        resetAll,
+        saveSession,
+        loadRestaurants,
+        initializeCalculator,
+        selectParticipantAndScroll,
+        setupScrollListener,
+        
+        // State variables (for testing)
+        getCurrentRestaurant: () => currentRestaurant,
+        getParticipants: () => participants,
+        getPlateSelections: () => plateSelections,
+        getCurrentParticipantIndex: () => currentParticipantIndex,
+        getCurrentState: () => currentState,
+        
+        // State setters (for testing)
+        setCurrentRestaurant: (restaurant) => { currentRestaurant = restaurant; },
+        setParticipants: (p) => { participants = p; },
+        setPlateSelections: (ps) => { plateSelections = ps; },
+        setCurrentParticipantIndex: (index) => { currentParticipantIndex = index; },
+        setCurrentState: (state) => { currentState = state; },
+        
+        // Constants
+        AppState
+    };
+}

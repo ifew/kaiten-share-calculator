@@ -266,15 +266,48 @@
                 </button>
             </div>
 
+            <!-- Total Plates Summary -->
+            <div class="bg-blue-50 rounded-lg p-4 mb-6">
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div>
+                        <p class="text-2xl font-bold text-blue-600" id="summary-total-plates">0</p>
+                        <p class="text-sm text-gray-600">จำนวนจานทั้งหมด</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-green-600" id="summary-total-amount">฿0.00</p>
+                        <p class="text-sm text-gray-600">ยอดรวมทั้งหมด</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plate Breakdown Table -->
+            <div class="overflow-x-auto mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">สรุปจำนวนจานแต่ละประเภท</h3>
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-300 p-2 text-left">ประเภทจาน</th>
+                            <th class="border border-gray-300 p-2 text-center">จำนวน</th>
+                            <th class="border border-gray-300 p-2 text-right">ราคา/จาน</th>
+                            <th class="border border-gray-300 p-2 text-right">รวม</th>
+                        </tr>
+                    </thead>
+                    <tbody id="plate-breakdown-table-body">
+                        <!-- Plate breakdown rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
             <!-- Summary Table -->
             <div class="overflow-x-auto mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">สรุปบิลแต่ละคน</h3>
                 <table class="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr class="bg-gray-100">
                             <th class="border border-gray-300 p-2 text-left">ใครกินบ้าง</th>
                             <th class="border border-gray-300 p-2 text-center">จำนวนจาน</th>
                             <th class="border border-gray-300 p-2 text-right">ราคาจาน</th>
-                            <th class="border border-gray-300 p-2 text-right">ราคาจ่าย</th>
+                            <th class="border border-gray-300 p-2 text-right">จ่าย</th>
                         </tr>
                     </thead>
                     <tbody id="summary-table-body">
@@ -286,7 +319,7 @@
             <!-- Grand Total -->
             <div class="border-t pt-4">
                 <div class="flex justify-between items-center text-lg font-semibold">
-                    <span>ราคารวมสุทธิ:</span>
+                    <span id="grand-total-label">ราคารวมสุทธิ:</span>
                     <span id="grand-total" class="text-green-600">฿0.00</span>
                 </div>
             </div>

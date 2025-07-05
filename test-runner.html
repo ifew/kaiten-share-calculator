@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kaiten Share Calculator - Test Runner</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .pass { background-color: #d4edda; color: #155724; }
+        .fail { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button { margin: 5px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>Kaiten Share Calculator - Test Runner</h1>
+    <div id="test-results"></div>
+    
+    <h2>Manual Tests</h2>
+    <button onclick="runTest1()">Test Case 1: Katsu Midori</button>
+    <button onclick="runTest2()">Test Case 2: Sushiro</button>
+    <button onclick="runAllTests()">Run All Tests</button>
+    
+    <h2>Test Results</h2>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(test, status, message) {
+            const div = document.createElement('div');
+            div.className = `test-result ${status}`;
+            div.innerHTML = `<strong>${test}:</strong> ${message}`;
+            results.appendChild(div);
+        }
+        
+        function addInfo(message) {
+            const div = document.createElement('div');
+            div.className = 'test-result info';
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+        
+        async function runTest1() {
+            addInfo('Running Test Case 1: Katsu Midori...');
+            
+            try {
+                // Test Case 1 calculations
+                const plates = {
+                    red: { count: 3, price: 40 },
+                    blue: { count: 5, price: 50 },
+                    green: { count: 11, price: 60 },
+                    yellow: { count: 5, price: 70 },
+                    brown: { count: 6, price: 80 },
+                    pink: { count: 2, price: 90 },
+                    white: { count: 5, price: 120 },
+                    gold: { count: 1, price: 150 }
+                };
+                
+                let totalPlates = 0;
+                let subtotal = 0;
+                
+                Object.values(plates).forEach(plate => {
+                    totalPlates += plate.count;
+                    subtotal += plate.count * plate.price;
+                });
+                
+                const serviceCharge = subtotal * 0.1;
+                const totalWithService = subtotal + serviceCharge;
+                const netAmount = totalWithService / 1.07;
+                const vatAmount = totalWithService - netAmount;
+                
+                // Verify results
+                if (totalPlates === 38) {
+                    addResult('Plates Count', 'pass', `${totalPlates} plates ✅`);
+                } else {
+                    addResult('Plates Count', 'fail', `Expected 38, got ${totalPlates} ❌`);
+                }
+                
+                if (subtotal === 2790) {
+                    addResult('Subtotal', 'pass', `฿${subtotal} ✅`);
+                } else {
+                    addResult('Subtotal', 'fail', `Expected ฿2790, got ฿${subtotal} ❌`);
+                }
+                
+                if (serviceCharge === 279) {
+                    addResult('Service Charge', 'pass', `฿${serviceCharge} ✅`);
+                } else {
+                    addResult('Service Charge', 'fail', `Expected ฿279, got ฿${serviceCharge} ❌`);
+                }
+                
+                if (totalWithService === 3069) {
+                    addResult('Total', 'pass', `฿${totalWithService} ✅`);
+                } else {
+                    addResult('Total', 'fail', `Expected ฿3069, got ฿${totalWithService} ❌`);
+                }
+                
+                if (Math.abs(vatAmount - 200.77) < 0.01) {
+                    addResult('VAT Amount', 'pass', `฿${vatAmount.toFixed(2)} ✅`);
+                } else {
+                    addResult('VAT Amount', 'fail', `Expected ฿200.77, got ฿${vatAmount.toFixed(2)} ❌`);
+                }
+                
+                addInfo('Test Case 1 completed ✅');
+                
+            } catch (error) {
+                addResult('Test Case 1', 'fail', `Error: ${error.message}`);
+            }
+        }
+        
+        async function runTest2() {
+            addInfo('Running Test Case 2: Sushiro...');
+            
+            try {
+                // Test Case 2 calculations
+                const plates = {
+                    red: { count: 5, price: 40 },
+                    silver: { count: 3, price: 60 },
+                    gold: { count: 11, price: 80 },
+                    black: { count: 1, price: 120 },
+                    special70: { count: 3, price: 70 }
+                };
+                
+                let totalPlates = 0;
+                let subtotal = 0;
+                
+                Object.values(plates).forEach(plate => {
+                    totalPlates += plate.count;
+                    subtotal += plate.count * plate.price;
+                });
+                
+                const serviceCharge = subtotal * 0.1;
+                const totalWithService = subtotal + serviceCharge;
+                const netAmount = totalWithService / 1.07;
+                const vatAmount = totalWithService - netAmount;
+                
+                // Verify results
+                if (totalPlates === 23) {
+                    addResult('Plates Count', 'pass', `${totalPlates} plates ✅`);
+                } else {
+                    addResult('Plates Count', 'fail', `Expected 23, got ${totalPlates} ❌`);
+                }
+                
+                if (subtotal === 1590) {
+                    addResult('Subtotal', 'pass', `฿${subtotal} ✅`);
+                } else {
+                    addResult('Subtotal', 'fail', `Expected ฿1590, got ฿${subtotal} ❌`);
+                }
+                
+                if (serviceCharge === 159) {
+                    addResult('Service Charge', 'pass', `฿${serviceCharge} ✅`);
+                } else {
+                    addResult('Service Charge', 'fail', `Expected ฿159, got ฿${serviceCharge} ❌`);
+                }
+                
+                if (totalWithService === 1749) {
+                    addResult('Total', 'pass', `฿${totalWithService} ✅`);
+                } else {
+                    addResult('Total', 'fail', `Expected ฿1749, got ฿${totalWithService} ❌`);
+                }
+                
+                if (Math.abs(vatAmount - 114.42) < 0.01) {
+                    addResult('VAT Amount', 'pass', `฿${vatAmount.toFixed(2)} ✅`);
+                } else {
+                    addResult('VAT Amount', 'fail', `Expected ฿114.42, got ฿${vatAmount.toFixed(2)} ❌`);
+                }
+                
+                addInfo('Test Case 2 completed ✅');
+                
+            } catch (error) {
+                addResult('Test Case 2', 'fail', `Error: ${error.message}`);
+            }
+        }
+        
+        async function runAllTests() {
+            results.innerHTML = '';
+            addInfo('Starting all tests...');
+            await runTest1();
+            await runTest2();
+            addInfo('All tests completed! 🎉');
+        }
+        
+        // Auto-run tests on load
+        window.onload = runAllTests;
+    </script>
+</body>
+</html>
