@@ -19,6 +19,12 @@
     "vatLabel": "VAT",
     "serviceChargeLabel": "Service Charge",
     "plates": {
+        "white": {
+            "label_th" : "ขาว",
+            "label_en" : "White",
+            "image": "/images/plates/sushiro/white.png",
+            "price" : 30
+        },
         "red": {
             "label_th" : "แดง",
             "label_en" : "Red",
