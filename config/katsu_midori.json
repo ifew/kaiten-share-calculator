@@ -55,10 +55,10 @@
             "image": "/images/plates/katsu_midori/pink.png",
             "price" : 90
         },
-        "sand": {
-            "label_th" : "ทราย",
-            "label_en" : "Sand",
-            "image": "/images/plates/katsu_midori/sand.png",
+        "brown_gold": {
+            "label_th" : "น้ำตาล-ทอง",
+            "label_en" : "Brown Gold",
+            "image": "/images/plates/katsu_midori/brown_gold.png",
             "price" : 100
         },
         "white_gold": {
