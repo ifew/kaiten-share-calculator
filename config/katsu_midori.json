@@ -80,8 +80,8 @@
             "price" : 150
         },
         "white_blue": {
-            "label_th" : "ขาว-น้ำเงินตาราง",
-            "label_en" : "White Blue Grid",
+            "label_th" : "ขาว-น้ำเงิน",
+            "label_en" : "White Blue",
             "image": "/images/plates/katsu_midori/white_blue.png",
             "price" : 160
         },
