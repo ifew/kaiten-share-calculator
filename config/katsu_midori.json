@@ -61,34 +61,34 @@
             "image": "/images/plates/katsu_midori/sand.png",
             "price" : 100
         },
-        "white": {
-            "label_th" : "ขาว",
-            "label_en" : "White",
-            "image": "/images/plates/katsu_midori/white.png",
+        "white_gold": {
+            "label_th" : "ขาว-ทอง",
+            "label_en" : "White Gold",
+            "image": "/images/plates/katsu_midori/white_gold.png",
             "price" : 120
         },
-        "red_pattern": {
-            "label_th" : "ลายแดง",
-            "label_en" : "Red Pattern",
-            "image": "/images/plates/katsu_midori/red_pattern.png",
+        "red_gold": {
+            "label_th" : "แดง-ทอง",
+            "label_en" : "Red Gold",
+            "image": "/images/plates/katsu_midori/red_gold.png",
             "price" : 140
         },
         "gold": {
-            "label_th" : "ทอง",
+            "label_th" : "ทองล้วน",
             "label_en" : "Gold",
             "image": "/images/plates/katsu_midori/gold.png",
             "price" : 150
         },
         "white_blue": {
-            "label_th" : "ขาว ตารางน้ำเงิน",
-            "label_en" : "White Blue",
+            "label_th" : "ขาว-น้ำเงินตาราง",
+            "label_en" : "White Blue Grid",
             "image": "/images/plates/katsu_midori/white_blue.png",
             "price" : 160
         },
-        "black": {
-            "label_th" : "ดำ",
-            "label_en" : "Black",
-            "image": "/images/plates/katsu_midori/black.png",
+        "black_gold": {
+            "label_th" : "ดำ-ทอง",
+            "label_en" : "Black Gold",
+            "image": "/images/plates/katsu_midori/black_gold.png",
             "price" : 180
         }
     }
