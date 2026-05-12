@@ -47,49 +47,79 @@
             "label_th" : "ดำ",
             "label_en" : "Black",
             "image": "/images/plates/sushiro/black.png",
-            "price" : 120
+            "price" : 100
+        },
+        "special40": {
+            "label_th" : "อาหาร/เครื่องดื่ม 40",
+            "label_en" : "Food/Drink 40",
+            "image": "",
+            "price" : 40
+        },
+        "special60": {
+            "label_th" : "อาหาร/เครื่องดื่ม 60",
+            "label_en" : "Food/Drink 60",
+            "image": "",
+            "price" : 60
         },
         "special70": {
-            "label_th" : "จานพิเศษ 70",
-            "label_en" : "Special 70",
+            "label_th" : "อาหาร/เครื่องดื่ม 70",
+            "label_en" : "Food/Drink 70",
             "image": "",
             "price" : 70
         },
         "special80": {
-            "label_th" : "จานพิเศษ 80",
-            "label_en" : "Special 80",
+            "label_th" : "อาหาร/เครื่องดื่ม 80",
+            "label_en" : "Food/Drink 80",
             "image": "",
             "price" : 80
         },
         "special100": {
-            "label_th" : "จานพิเศษ 100",
-            "label_en" : "Special 100",
+            "label_th" : "อาหาร/เครื่องดื่ม 100",
+            "label_en" : "Food/Drink 100",
             "image": "",
             "price" : 100
         },
+        "special120": {
+            "label_th" : "อาหาร/เครื่องดื่ม 120",
+            "label_en" : "Food/Drink 120",
+            "image": "",
+            "price" : 120
+        },
         "special140": {
-            "label_th" : "จานพิเศษ 140",
-            "label_en" : "Special 140",
+            "label_th" : "อาหาร/เครื่องดื่ม 140",
+            "label_en" : "Food/Drink 140",
             "image": "",
             "price" : 140
         },
         "special160": {
-            "label_th" : "จานพิเศษ 160",
-            "label_en" : "Special 160",
+            "label_th" : "อาหาร/เครื่องดื่ม 160",
+            "label_en" : "Food/Drink 160",
             "image": "",
             "price" : 160
         },
         "special280": {
-            "label_th" : "จานพิเศษ 280",
-            "label_en" : "Special 280",
+            "label_th" : "อาหาร/เครื่องดื่ม 280",
+            "label_en" : "Food/Drink 280",
             "image": "",
             "price" : 280
         },
         "special350": {
-            "label_th" : "จานพิเศษ 350",
-            "label_en" : "Special 350",
+            "label_th" : "อาหาร/เครื่องดื่ม 350",
+            "label_en" : "Food/Drink 350",
             "image": "",
             "price" : 350
+        },
+        "special450": {
+            "label_th" : "อาหาร/เครื่องดื่ม 450",
+            "label_en" : "Food/Drink 450",
+            "image": "",
+            "price" : 450
+        },
+        "special850": {
+            "label_th" : "อาหาร/เครื่องดื่ม 850",
+            "label_en" : "Food/Drink 850",
+            "image": "",
+            "price" : 850
         }
     }
 }
