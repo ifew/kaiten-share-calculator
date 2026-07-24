@@ -343,7 +343,7 @@ function formatCurrency(amount) {
     if (!currentRestaurant) {
         // Default formatting when no restaurant is selected
         const formatted = amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return `฿${formatted}`;
+        return `${formatted}฿`;
     }
     
     const decimalDigits = currentRestaurant.currencyDecimalDigits || 2;
@@ -485,6 +485,153 @@ function generateSummaryTable() {
     
     const grandTotalEl = document.getElementById('grand-total');
     if (grandTotalEl) grandTotalEl.textContent = formatCurrency(grandTotal);
+}
+
+// Build a plain-text summary of the bill for copy/share.
+// Mirrors the per-person calculation used in generateSummaryTable().
+function buildBillSummaryText() {
+    if (!currentRestaurant || participants.length === 0) return '';
+
+    const serviceRate = currentRestaurant.serviceCharge || 0;
+    const vatRate = currentRestaurant.vat || 0;
+
+    const subtotal = participants.reduce((sum, p) =>
+        sum + getTotalAmountForParticipant(p.id), 0);
+
+    let serviceCharge, vat, grandTotal;
+    if (currentRestaurant.vatIncluded) {
+        // VAT already inside prices — extract it for the breakdown
+        serviceCharge = subtotal * serviceRate;
+        const totalWithServiceCharge = subtotal + serviceCharge;
+        const netAmount = totalWithServiceCharge / (1 + vatRate);
+        vat = totalWithServiceCharge - netAmount;
+        grandTotal = totalWithServiceCharge;
+    } else {
+        serviceCharge = subtotal * serviceRate;
+        vat = subtotal * vatRate;
+        grandTotal = subtotal + serviceCharge + vat;
+    }
+
+    // Current date & time (Thai locale, with a safe fallback)
+    const now = new Date();
+    let dateStr, timeStr;
+    try {
+        dateStr = now.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+        timeStr = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+        dateStr = now.toLocaleDateString();
+        timeStr = now.toLocaleTimeString();
+    }
+
+    const totalPlates = participants.reduce((sum, p) =>
+        sum + getTotalPlatesForParticipant(p.id), 0);
+
+    const lines = [];
+    lines.push(`🧾 สรุปบิล ${currentRestaurant.restaurantName}`);
+    lines.push(`📅 ${dateStr} เวลา ${timeStr} น.`);
+    lines.push('');
+    lines.push(`🍽️ จำนวนจานทั้งหมด: ${totalPlates} จาน`);
+    lines.push('');
+    lines.push(`💰 ยอดที่ต้องจ่ายรวม: ${formatCurrency(grandTotal)}`);
+
+    // Fee breakdown (grouped directly under the total, no blank line)
+    if (currentRestaurant.vatIncluded) {
+        lines.push(`• ค่าอาหาร (รวม VAT): ${formatCurrency(subtotal)}`);
+        if (serviceRate > 0) lines.push(`• Service Charge (${Math.round(serviceRate * 100)}%): ${formatCurrency(serviceCharge)}`);
+    } else {
+        lines.push(`• ค่าอาหาร: ${formatCurrency(subtotal)}`);
+        if (serviceRate > 0) lines.push(`• Service Charge (${Math.round(serviceRate * 100)}%): ${formatCurrency(serviceCharge)}`);
+        if (vatRate > 0) lines.push(`• VAT (${Math.round(vatRate * 100)}%): ${formatCurrency(vat)}`);
+    }
+    lines.push('');
+
+    // Per-person breakdown
+    lines.push('👥 แยกจ่ายแต่ละคน:');
+    participants.forEach((p, i) => {
+        const pSubtotal = getTotalAmountForParticipant(p.id);
+        const pService = subtotal > 0 ? (pSubtotal / subtotal) * serviceCharge : 0;
+        let pTotal;
+        if (currentRestaurant.vatIncluded) {
+            pTotal = pSubtotal + pService;
+        } else {
+            const pVat = subtotal > 0 ? (pSubtotal / subtotal) * vat : 0;
+            pTotal = pSubtotal + pService + pVat;
+        }
+        const plates = getTotalPlatesForParticipant(p.id);
+        lines.push(`${i + 1}. ${p.name} — ${plates} จาน — ${formatCurrency(pTotal)}`);
+    });
+
+    lines.push('');
+    lines.push(`คิดบิล ${currentRestaurant.restaurantName} โดยแอพ https://kaiten.myifew.com/`);
+
+    return lines.join('\n');
+}
+
+// Copy the bill summary text to the clipboard. Returns Promise<boolean>.
+function copyBillSummary() {
+    const text = buildBillSummaryText();
+    if (!text) return Promise.resolve(false);
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text)
+            .then(() => true)
+            .catch(() => fallbackCopyText(text));
+    }
+    return Promise.resolve(fallbackCopyText(text));
+}
+
+// Legacy clipboard fallback for older/insecure contexts
+function fallbackCopyText(text) {
+    try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Copy button handler with inline feedback
+function handleCopySummary() {
+    copyBillSummary().then(success => {
+        const label = document.getElementById('copy-summary-label');
+        if (!label) return;
+        label.textContent = success ? 'คัดลอกแล้ว ✓' : 'คัดลอกไม่สำเร็จ';
+        setTimeout(() => { label.textContent = 'คัดลอกข้อความ'; }, 2000);
+    });
+}
+
+// Share to LINE (supports free text via URL scheme)
+function shareToLine() {
+    const text = buildBillSummaryText();
+    if (!text) return;
+    window.open('https://line.me/R/msg/text/?' + encodeURIComponent(text), '_blank');
+}
+
+// Share to WhatsApp (supports free text via URL scheme)
+function shareToWhatsApp() {
+    const text = buildBillSummaryText();
+    if (!text) return;
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+// Messenger has no reliable way to prefill free text via a web link,
+// so copy the summary to the clipboard and open Messenger to paste.
+function shareToMessenger() {
+    const text = buildBillSummaryText();
+    if (!text) return;
+    copyBillSummary(); // fire off the copy while the user gesture is still active
+    if (typeof alert !== 'undefined') {
+        alert('คัดลอกข้อความสรุปบิลแล้ว ✓\nกดตกลงเพื่อเปิด Messenger แล้ววาง (Paste) ในแชทได้เลย');
+    }
+    window.open('https://www.messenger.com/', '_blank');
 }
 
 // Generate summary totals section
@@ -676,12 +823,20 @@ if (typeof window !== 'undefined' && window.document) {
     const backToCalculatorBtn = document.getElementById('back-to-calculator');
     const showSummaryBtn = document.getElementById('show-summary');
     const resetAllBtn = document.getElementById('reset-all');
-    
+    const copySummaryBtn = document.getElementById('copy-summary');
+    const shareLineBtn = document.getElementById('share-line');
+    const shareMessengerBtn = document.getElementById('share-messenger');
+    const shareWhatsappBtn = document.getElementById('share-whatsapp');
+
     if (addParticipantBtn) addParticipantBtn.addEventListener('click', addParticipant);
     if (backToRestaurantsBtn) backToRestaurantsBtn.addEventListener('click', () => switchToState(AppState.RESTAURANT_SELECTION));
     if (backToCalculatorBtn) backToCalculatorBtn.addEventListener('click', () => switchToState(AppState.CALCULATOR));
     if (showSummaryBtn) showSummaryBtn.addEventListener('click', showSummary);
     if (resetAllBtn) resetAllBtn.addEventListener('click', resetAll);
+    if (copySummaryBtn) copySummaryBtn.addEventListener('click', handleCopySummary);
+    if (shareLineBtn) shareLineBtn.addEventListener('click', shareToLine);
+    if (shareMessengerBtn) shareMessengerBtn.addEventListener('click', shareToMessenger);
+    if (shareWhatsappBtn) shareWhatsappBtn.addEventListener('click', shareToWhatsApp);
 }
 
 // Load saved session on startup (only in browser environment)
@@ -726,6 +881,7 @@ if (typeof module !== 'undefined' && module.exports) {
         generateSummaryTable,
         generateSummaryTotals,
         generatePlateBreakdownTable,
+        buildBillSummaryText,
         showSummary,
         
         // Utility functions

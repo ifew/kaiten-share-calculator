@@ -185,7 +185,7 @@ describe('App.js - Core Calculation Functions', () => {
         
         test('should handle no current restaurant', () => {
             setCurrentRestaurant(null);
-            expect(formatCurrency(100)).toBe('฿100.00'); // Default formatting
+            expect(formatCurrency(100)).toBe('100.00฿'); // Default formatting (symbol after)
         });
     });
 });

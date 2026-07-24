@@ -278,7 +278,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <p class="text-sm text-gray-600">จำนวนจาน</p>
                 </div>
                 <div>
-                    <p class="text-2xl font-bold text-green-600" id="total-amount">฿0.00</p>
+                    <p class="text-2xl font-bold text-green-600" id="total-amount">0.00฿</p>
                     <p class="text-sm text-gray-600">ยอดรวม</p>
                 </div>
             </div>
@@ -345,7 +345,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <p class="text-sm text-gray-600">จำนวนจานทั้งหมด</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-green-600" id="summary-total-amount">฿0.00</p>
+                        <p class="text-2xl font-bold text-green-600" id="summary-total-amount">0.00฿</p>
                         <p class="text-sm text-gray-600">ยอดรวมทั้งหมด</p>
                     </div>
                 </div>
@@ -385,13 +385,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <!-- Summary rows will be populated here -->
                     </tbody>
                 </table>
+
+                <!-- Copy & Share Buttons -->
+                <div class="mt-4">
+                    <p class="text-sm text-gray-600 mb-2">คัดลอกหรือแชร์สรุปบิลให้เพื่อน</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button id="copy-summary" class="flex items-center justify-center gap-1 text-white text-sm font-medium rounded-lg transition-colors" style="background-color:#374151; min-height:44px; padding:8px 14px; flex:1 1 45%;">
+                            📋 <span id="copy-summary-label">คัดลอกข้อความ</span>
+                        </button>
+                        <button id="share-line" class="flex items-center justify-center gap-1 text-white text-sm font-medium rounded-lg transition-colors" style="background-color:#06C755; min-height:44px; padding:8px 14px; flex:1 1 45%;">
+                            💬 LINE
+                        </button>
+                        <button id="share-messenger" class="flex items-center justify-center gap-1 text-white text-sm font-medium rounded-lg transition-colors" style="background-color:#0084FF; min-height:44px; padding:8px 14px; flex:1 1 45%;">
+                            💬 Messenger
+                        </button>
+                        <button id="share-whatsapp" class="flex items-center justify-center gap-1 text-white text-sm font-medium rounded-lg transition-colors" style="background-color:#25D366; min-height:44px; padding:8px 14px; flex:1 1 45%;">
+                            💬 WhatsApp
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Grand Total -->
             <div class="border-t pt-4">
                 <div class="flex justify-between items-center text-lg font-semibold">
                     <span id="grand-total-label">ราคารวมสุทธิ:</span>
-                    <span id="grand-total" class="text-green-600">฿0.00</span>
+                    <span id="grand-total" class="text-green-600">0.00฿</span>
                 </div>
             </div>
 
