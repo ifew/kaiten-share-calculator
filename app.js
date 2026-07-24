@@ -516,7 +516,7 @@ function buildBillSummaryText() {
     const now = new Date();
     let dateStr, timeStr;
     try {
-        dateStr = now.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+        dateStr = now.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
         timeStr = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
     } catch (e) {
         dateStr = now.toLocaleDateString();
