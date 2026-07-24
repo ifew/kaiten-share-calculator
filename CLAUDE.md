@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ Critical Rules (must follow)
+
+1. **Rebuild CSS after any class change.** Tailwind is prebuilt into `tailwind.css` (NOT the CDN). After editing/adding any Tailwind class name in `index.html` or `app.js`, run `npm run build:css` and commit the updated `tailwind.css`. Never re-add `cdn.tailwindcss.com`.
+2. **Never disable zoom in the viewport.** Keep `<meta name="viewport" content="width=device-width, initial-scale=1.0">`. Do not add `user-scalable=no` or `maximum-scale` (accessibility + SEO).
+3. **Keep `lang="th"` and Thai locale.** The site is Thai-first: `<html lang="th">` and `og:locale=th_TH`. Don't revert to `en`.
+4. **Keep referenced assets real.** Every file referenced in `index.html` (favicons, `site.webmanifest`, images) must exist. Also keep `robots.txt`, `sitemap.xml`, and `llms.txt` present and in sync when URLs/content change.
+5. **Keep SEO/AI metadata in sync.** When restaurants, features, or FAQs change, update the JSON-LD (`WebApplication` + `FAQPage`) blocks in `index.html`, the static About/FAQ `<section>`, and `llms.txt` together.
+
 ## Project Overview
 
 Kaiten Share Calculator is a web-based conveyor belt sushi/mala restaurant bill calculator that helps groups split bills based on individual plate consumption. The app is designed to be a pure frontend application with no backend dependencies.
@@ -15,7 +23,7 @@ Kaiten Share Calculator is a web-based conveyor belt sushi/mala restaurant bill 
 ## Technology Stack
 
 - **HTML5**: Structure and markup
-- **CSS3 + TailwindCSS**: Styling and responsive design (via CDN)
+- **CSS3 + TailwindCSS**: Styling and responsive design (prebuilt & purged into `tailwind.css`, not CDN)
 - **JavaScript (ES6)**: Application logic and interactivity
 - **JSON Configuration**: Restaurant data management
 - **No Backend**: Pure frontend application (no localStorage used)
@@ -88,11 +96,11 @@ Restaurant JSON files follow this structure:
 
 ## Development Commands
 
-**Note**: This project uses a simple setup with no build system:
+**Note**: This project has one lightweight build step (CSS only); everything else is static file serving:
 
-- Use a simple HTTP server for development (e.g., `python -m http.server` or `npx serve`)
-- TailwindCSS is loaded via CDN - no build process needed
-- No testing framework currently configured
+- Use a simple HTTP server for development (e.g., `python -m http.server` or `npx serve` / `npm run dev`)
+- TailwindCSS is prebuilt and purged into `tailwind.css` — run `npm run build:css` after changing any class names in `index.html` or `app.js`, or `npm run watch:css` while developing. `index.html` links `/tailwind.css` (no CDN).
+- `tailwind.css` is committed so Vercel serves it directly (no build runs on deploy)
 - Direct file serving works for development and production
 
 ## Implementation Guidelines
@@ -102,6 +110,7 @@ Restaurant JSON files follow this structure:
 2. Add restaurant logo to `images/logo_restaurants/`
 3. Create plate images in `images/plates/[restaurant_id]/`
 4. Add the new config filename to the `restaurantFiles` array in `app.js:30`
+5. If you introduce any new Tailwind class names, run `npm run build:css` and commit the updated `tailwind.css`
 
 ### Plate Configuration
 - Use consistent naming for plate colors/types across restaurants

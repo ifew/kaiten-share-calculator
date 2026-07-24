@@ -59,8 +59,8 @@ function displayRestaurants(restaurants) {
         
         card.innerHTML = `
             <article class="text-center">
-                <img src="${restaurant.restaurantLogo}" alt="${restaurant.restaurantName} logo" 
-                     class="w-24 h-24 mx-auto mb-4 object-cover" loading="lazy">
+                <img src="${restaurant.restaurantLogo}" alt="${restaurant.restaurantName} logo"
+                     width="96" height="96" class="w-24 h-24 mx-auto mb-4 object-cover" loading="lazy" decoding="async">
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">${restaurant.restaurantName}</h2>
                 <p class="text-gray-600 text-sm">${restaurant.restaurantDescription}</p>
             </article>
@@ -186,8 +186,8 @@ function displayPlates() {
         
         plateDiv.innerHTML = `
             ${plateData.image && plateData.image.trim() !== '' ? `
-                <img src="${plateData.image}" alt="${plateData.label_en} plate - ${formatCurrency(plateData.price)}" 
-                     class="w-16 h-16 mx-auto mb-2 rounded-full object-cover" loading="lazy">
+                <img src="${plateData.image}" alt="${plateData.label_en} plate - ${formatCurrency(plateData.price)}"
+                     width="64" height="64" class="w-16 h-16 mx-auto mb-2 rounded-full object-cover" loading="lazy" decoding="async">
             ` : `
                 <div class="mx-auto mb-2 bg-gray-100 border-2 border-gray-300 rounded-lg flex items-center justify-center" style="width: 72px; height: 72px;">
                     <span class="text-xs font-semibold text-gray-900 text-center leading-tight px-1">${plateData.label_en}</span>

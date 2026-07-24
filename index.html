@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3b82f6">
     <title>Kaiten Share Calculator - คำนวณเงินค่าซูชิ/หม่าล่าสายพาน แบบกินคนเดียวและแชร์กันจ่าย</title>
     <meta name="description" content="ไปกินซูชิสายพานกับเพื่อน ไม่ต้องหารเองให้ปวดหัว ใช้แอพนี้คิดได้เลย ทั้ง Sushiro, Katsu Midori, Yijia Suki Mala และร้านอาหารซูชิ/หม่าล่าอื่นๆ ในประเทศไทย">
     <meta name="keywords" content="เว็บคำนวณบิลซูชิ, ซูชิสายพาน, แบ่งบิล, แชร์บิล, Sushiro, Katsu Midori, Yijia Suki Mala, ประเทศไทย, ร้านซูชิ, การรับประทานอาหารเป็นกลุ่ม">
@@ -15,7 +16,7 @@
     <meta property="og:title" content="Kaiten Share Calculator - คำนวณเงินค่าซูชิ/หม่าล่าสายพาน แบบกินคนเดียวและแชร์กันจ่าย">
     <meta property="og:description" content="ไปกินซูชิสายพานกับเพื่อน ไม่ต้องหารเองให้ปวดหัว ใช้แอพนี้คิดได้เลย ทั้ง Sushiro, Katsu Midori, Yijia Suki Mala และร้านอาหารซูชิ/หม่าล่าอื่นๆ ในประเทศไทย">
     <meta property="og:image" content="https://kaiten.myifew.com/og.png">
-    <meta property="og:locale" content="en_US">
+    <meta property="og:locale" content="th_TH">
     <meta property="og:site_name" content="Kaiten Share Calculator">
     
     <!-- Twitter -->
@@ -35,9 +36,9 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://kaiten.myifew.com/">
 
-    <!-- Language alternatives -->
-    <link rel="alternate" hreflang="en" href="https://kaiten.myifew.com/">
-    <link rel="alternate" hreflang="th" href="https://kaiten.myifew.com/">
+    <!-- Language: single Thai version -->
+    <link rel="alternate" hreflang="th-TH" href="https://kaiten.myifew.com/">
+    <link rel="alternate" hreflang="x-default" href="https://kaiten.myifew.com/">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -68,8 +69,51 @@
         }
     }
     </script>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Structured Data: FAQ (helps Google rich results & AI answers) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Kaiten Share Calculator แบ่งเงินอย่างไร?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "แบ่งเงินตามมูลค่าจานที่แต่ละคนกินจริง ไม่ใช่หารเท่ากันทั้งโต๊ะ ทำให้แต่ละคนจ่ายตามที่กินจริง ๆ อย่างยุติธรรม"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "คิดค่าบริการ (Service Charge) และ VAT ให้ไหม?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "คิดให้อัตโนมัติตามอัตราที่ตั้งไว้ของแต่ละร้าน แล้วเฉลี่ยค่าบริการและ VAT ตามสัดส่วนที่แต่ละคนกิน"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "รองรับร้านอะไรบ้าง?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "รองรับ Sushiro, Katsu Midori และ Yijia Suki Mala รวมถึงร้านซูชิ/หม่าล่าสายพานอื่น ๆ โดยเลือกไอเท็มที่ราคาเท่ากันได้"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "เก็บข้อมูลผู้ใช้ไหม ต้องสมัครสมาชิกหรือเปล่า?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ไม่เก็บข้อมูลและไม่ต้องสมัครสมาชิก ทำงานในเบราว์เซอร์ทั้งหมด รีเฟรชแล้วเริ่มใหม่ทุกครั้ง ใช้งานฟรี"
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Prebuilt, purged & minified Tailwind CSS (run `npm run build:css` after changing classes) -->
+    <link rel="stylesheet" href="/tailwind.css">
     <style>
         .plate-button {
             transition: all 0.3s ease;
@@ -163,7 +207,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div id="restaurant-selection" class="hidden container mx-auto px-4 py-8">
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
-                <img src="/logo-trans.png" alt="Kaiten Share Calculator Logo" style="width: 5rem; height: 5rem;">
+                <img src="/logo-trans.png" alt="Kaiten Share Calculator Logo" width="80" height="80" decoding="async" style="width: 5rem; height: 5rem;">
                 Kaiten Share Calculator
             </h1>
             <p class="text-gray-600 mb-4">คำนวณเงินค่าซูชิ/หม่าล่าสายพาน แบบกินคนเดียวและแชร์กันจ่าย</p>
@@ -172,6 +216,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         
         <section id="restaurant-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto" aria-label="Restaurant selection">
             <!-- Restaurant cards will be populated here -->
+        </section>
+
+        <!-- SEO / AI static content (first page only). Rendered in the served HTML so
+             search engines and AI crawlers can read it; hidden with this page on other views. -->
+        <section class="max-w-3xl mx-auto mt-12 text-gray-700" aria-label="เกี่ยวกับ Kaiten Share Calculator">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Kaiten Share Calculator คืออะไร</h2>
+            <p class="mb-4">
+                <strong>Kaiten Share Calculator</strong> คือเว็บแอปฟรีสำหรับ<strong>คำนวณและแบ่งบิลร้านซูชิและหม่าล่าสายพาน</strong>ในประเทศไทย
+                แบ่งเงินตามจำนวนจานที่แต่ละคนกินจริง ไม่ใช่หารเท่ากันทั้งโต๊ะ พร้อมคิดค่าบริการ (Service Charge) และ VAT ให้อัตโนมัติ
+                รองรับร้าน <strong>Sushiro</strong>, <strong>Katsu Midori</strong>, <strong>Yijia Suki Mala</strong>
+                และร้านซูชิ/หม่าล่าสายพานอื่น ๆ ใช้งานฟรี ไม่ต้องลงทะเบียน ไม่เก็บข้อมูล และใช้งานลื่นบนมือถือ
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">วิธีใช้งาน</h3>
+            <ol class="list-decimal list-inside space-y-1 mb-4">
+                <li>เลือกร้านที่ไปกิน</li>
+                <li>เพิ่มรายชื่อคนที่ร่วมโต๊ะ</li>
+                <li>กดเลือกจานให้แต่ละคนตามที่กินจริง ระบบคิดเงินแบบเรียลไทม์</li>
+                <li>ดูสรุปบิลของแต่ละคน พร้อมค่าบริการและ VAT เฉลี่ยตามสัดส่วน</li>
+            </ol>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">คำถามที่พบบ่อย</h3>
+            <div class="space-y-3">
+                <details class="border border-gray-200 rounded-lg p-3" name="faq">
+                    <summary class="font-medium cursor-pointer">แบ่งเงินอย่างไร?</summary>
+                    <p class="mt-2 text-gray-600">แบ่งตามมูลค่าจานที่แต่ละคนกินจริง ไม่ใช่หารเท่ากันทั้งโต๊ะ ทำให้ทุกคนจ่ายอย่างยุติธรรม</p>
+                </details>
+                <details class="border border-gray-200 rounded-lg p-3" name="faq">
+                    <summary class="font-medium cursor-pointer">คิดค่าบริการและ VAT ให้ไหม?</summary>
+                    <p class="mt-2 text-gray-600">คิดให้อัตโนมัติตามอัตราของแต่ละร้าน แล้วเฉลี่ยตามสัดส่วนที่แต่ละคนกิน</p>
+                </details>
+                <details class="border border-gray-200 rounded-lg p-3" name="faq">
+                    <summary class="font-medium cursor-pointer">รองรับร้านอะไรบ้าง?</summary>
+                    <p class="mt-2 text-gray-600">Sushiro, Katsu Midori, Yijia Suki Mala และร้านซูชิ/หม่าล่าสายพานอื่น ๆ โดยเลือกไอเท็มที่ราคาเท่ากันได้</p>
+                </details>
+                <details class="border border-gray-200 rounded-lg p-3" name="faq">
+                    <summary class="font-medium cursor-pointer">เก็บข้อมูลหรือต้องสมัครสมาชิกไหม?</summary>
+                    <p class="mt-2 text-gray-600">ไม่เก็บข้อมูลและไม่ต้องสมัครสมาชิก ทำงานในเบราว์เซอร์ทั้งหมด รีเฟรชแล้วเริ่มใหม่ทุกครั้ง</p>
+                </details>
+            </div>
         </section>
     </div>
 

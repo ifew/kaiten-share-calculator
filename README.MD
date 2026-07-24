@@ -26,9 +26,10 @@
 
 ### Technical Features
 - **Offline-capable**: No backend required, works without internet
-- **Responsive design**: Mobile-optimized with prevent zoom on double-tap
-- **Session management**: Optional localStorage for data persistence
+- **Responsive design**: Mobile-optimized; buttons use `touch-action: manipulation` to avoid accidental double-tap zoom while keeping pinch-to-zoom available
+- **No data storage**: Fresh session each time — nothing is saved and no personal data is collected
 - **Error handling**: Graceful fallbacks and user-friendly error messages
+- **SEO & AI friendly**: JSON-LD (`WebApplication` + `FAQPage`), `robots.txt`, `sitemap.xml`, `llms.txt`, and static HTML content so search engines and AI crawlers can read the page
 
 ---
 
@@ -36,14 +37,14 @@
 
 ### Frontend
 - **HTML5**: Semantic structure with accessibility features
-- **CSS3 + TailwindCSS**: Utility-first styling with custom animations
+- **CSS3 + TailwindCSS**: Utility-first styling, **prebuilt & purged into `tailwind.css`** (no CDN) with custom animations
 - **JavaScript (ES6+)**: Modern vanilla JavaScript with async/await
 - **Responsive Design**: Mobile-first approach with touch optimization
 
 ### Data Management
 - **JSON Configuration**: Restaurant and menu item configurations
 - **Dynamic Loading**: Automatic detection of restaurant config files
-- **LocalStorage**: Optional session persistence
+- **No persistence**: State lives in memory only — no localStorage, no backend
 - **Client-side State**: Real-time data management without backend
 
 ### Architecture
@@ -96,3 +97,102 @@
   - Floating scroll button when scrolled past participants
 - **Reset option**: Clear all data and restart
 - **No save required**: Works entirely offline without accounts
+
+---
+
+## 📁 Project Structure
+
+```text
+/
+├── index.html                  # Main HTML — UI, SEO/meta, JSON-LD, links /tailwind.css
+├── app.js                      # Application logic (vanilla ES6)
+├── tailwind.css                # Prebuilt + purged Tailwind (COMMITTED, served as-is)
+├── src/
+│   └── tailwind.input.css      # Tailwind entry (@tailwind base/components/utilities)
+├── tailwind.config.js          # Purge/content config → scans index.html + app.js
+├── config/                     # Restaurant configs (one JSON per restaurant)
+│   ├── sushiro.json
+│   ├── katsu_midori.json
+│   └── yijia_suki_mala.json
+├── images/                     # Logos + plate images per restaurant
+├── robots.txt                  # Crawl rules (search engines + AI bots)
+├── sitemap.xml                 # Sitemap for search engines
+├── llms.txt                    # Site summary for AI crawlers
+├── site.webmanifest            # PWA manifest
+├── favicon*.png / .ico / .svg  # Icons
+├── tests/                      # Jest unit + integration tests
+└── cypress/                    # Cypress end-to-end tests
+```
+
+---
+
+## 🚀 Getting Started
+
+Requires Node.js (for tooling) — the app itself is static.
+
+```bash
+npm install          # install dev tooling (Tailwind, Jest, Cypress, ...)
+npm run build:css    # build tailwind.css (required before first run)
+npm run dev          # serve locally at http://localhost:3000
+```
+
+### Building CSS
+
+Tailwind is **not** loaded from a CDN — it is compiled into `tailwind.css`.
+
+```bash
+npm run build:css    # one-off minified build
+npm run watch:css    # rebuild automatically while developing
+```
+
+> ⚠️ After changing **any** Tailwind class name in `index.html` or `app.js`, run `npm run build:css` and commit the updated `tailwind.css`. Otherwise new classes won't have styles in production.
+
+---
+
+## 🧪 Testing
+
+```bash
+npm test             # Jest unit + integration tests
+npm run test:unit    # unit tests only
+npm run test:integration
+npm run test:coverage # tests with coverage report
+npm run cypress:open # open Cypress interactive runner (E2E)
+npm run cypress:run  # run Cypress E2E headless
+npm run test:ui      # start server + run Cypress E2E
+npm run test:all     # coverage + E2E
+npm run lint         # ESLint
+npm run format       # Prettier
+```
+
+---
+
+## ☁️ Deployment
+
+Deployed on **Vercel** as a pure static site — **no build runs on deploy**, files are served exactly as committed.
+
+1. Run `npm run build:css` locally and commit the updated `tailwind.css`.
+2. Commit and push to the default branch.
+3. Vercel serves the static files directly.
+
+Because Vercel does not build the CSS, the committed `tailwind.css` **must** be up to date — this is the most common deployment mistake to avoid.
+
+Live: <https://kaiten-share-calculator.vercel.app/>
+
+---
+
+## 📋 Development Rules
+
+These rules keep SEO, accessibility, and the CSS pipeline healthy (also enforced in `CLAUDE.md`):
+
+1. **Rebuild CSS after class changes** — run `npm run build:css` and commit `tailwind.css`. Never re-add `cdn.tailwindcss.com`.
+2. **Never disable zoom** — keep `<meta name="viewport" content="width=device-width, initial-scale=1.0">`; no `user-scalable=no` / `maximum-scale`.
+3. **Stay Thai-first** — keep `<html lang="th">` and `og:locale=th_TH`.
+4. **Keep referenced assets real** — every file referenced in `index.html` must exist; keep `robots.txt`, `sitemap.xml`, `llms.txt` present.
+5. **Keep SEO/AI metadata in sync** — when restaurants/features/FAQs change, update the JSON-LD blocks, the static About/FAQ `<section>`, and `llms.txt` together.
+
+### Adding a New Restaurant
+
+1. Create `config/[restaurant_id].json`.
+2. Add a logo to `images/logo_restaurants/` and plate images to `images/plates/[restaurant_id]/`.
+3. Add the config filename to the `restaurantFiles` array in `app.js`.
+4. If you introduce new Tailwind classes, run `npm run build:css` and commit `tailwind.css`.

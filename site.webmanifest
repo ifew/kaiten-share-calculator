@@ -1,0 +1,26 @@
+{
+  "name": "Kaiten Share Calculator",
+  "short_name": "Kaiten Calc",
+  "description": "คำนวณและแบ่งบิลซูชิ/หม่าล่าสายพาน แบบกินคนเดียวและแชร์กันจ่าย",
+  "lang": "th",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f9fafb",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
