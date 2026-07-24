@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 3. **Keep `lang="th"` and Thai locale.** The site is Thai-first: `<html lang="th">` and `og:locale=th_TH`. Don't revert to `en`.
 4. **Keep referenced assets real.** Every file referenced in `index.html` (favicons, `site.webmanifest`, images) must exist. Also keep `robots.txt`, `sitemap.xml`, and `llms.txt` present and in sync when URLs/content change.
 5. **Keep SEO/AI metadata in sync.** When restaurants, features, or FAQs change, update the JSON-LD (`WebApplication` + `FAQPage`) blocks in `index.html`, the static About/FAQ `<section>`, and `llms.txt` together.
+6. **Bump the asset version after any `app.js` or `tailwind.css` change.** These are served with a long browser cache (`max-age` ~186 days via the CDN), so `index.html` references them with a `?v=` query (e.g. `app.js?v=20260724b`, `tailwind.css?v=20260724b`). `index.html` itself always revalidates, so bumping `?v=` is what forces returning users to fetch the new code. Update BOTH query strings to the same new token whenever you change either file, or users keep running stale cached code.
 
 ## Project Overview
 

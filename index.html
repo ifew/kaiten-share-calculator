@@ -116,7 +116,8 @@
     </script>
 
     <!-- Prebuilt, purged & minified Tailwind CSS (run `npm run build:css` after changing classes) -->
-    <link rel="stylesheet" href="/tailwind.css">
+    <!-- ?v= cache-busts long-lived asset caching; bump ASSET_VERSION on every app.js/tailwind.css change -->
+    <link rel="stylesheet" href="/tailwind.css?v=20260724b">
     <style>
         .plate-button {
             transition: all 0.3s ease;
@@ -448,7 +449,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=20260724b"></script>
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPDPF5S"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
